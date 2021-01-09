@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form novalidate class="md-layout" @submit.prevent="validateUser">
+    <form novalidate class="md-layout" @submit.prevent="validateProduct">
       <md-card class="md-layout-item">
         <md-card-header>
           <div class="md-title">Modifier un produit</div>
@@ -53,9 +53,30 @@
 
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('tcg')">
+                <label for="tcg">Tcg</label>
+                <md-select id="tcg" name="tcg" autocomplete="tcg" v-model="form.tcg" :disabled="sending">
+                  <md-option value=1>1</md-option>
+                  <md-option value=2>2</md-option>
+                  <md-option value=3>3</md-option>
+                  <md-option value=4>4</md-option>
+                </md-select>
+                <span class="md-error" v-if="!$v.form.tcg.required">tcg obligatoire</span>
+                <span class="md-error" v-else-if="!$v.form.tcg.minLength">tcg au moins 1 tcg</span>
+              </md-field>
+            </div>
+          </div>
+
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('category')">
-                <label for="category">Category</label>
-                <md-input type="category" id="category" name="category" autocomplete="category" v-model="form.category" :disabled="sending" />
+                <label for="category">Catégorie</label>
+                <md-select id="category" name="category" autocomplete="category" v-model="form.category" :disabled="sending">
+                  <md-option value=1>1</md-option>
+                  <md-option value=2>2</md-option>
+                  <md-option value=3>3</md-option>
+                  <md-option value=4>4</md-option>
+                </md-select>
                 <span class="md-error" v-if="!$v.form.category.required">Il est obligatoire de donner la catégorie du produit</span>
                 <span class="md-error" v-else-if="!$v.form.category.between">Il faut donner une catégorie entre 1 et 4</span>
               </md-field>
@@ -72,8 +93,6 @@
           <md-button class="md-raised md-accent" :disabled="sending" @click="deleteProduct()">Supprimer</md-button>
         </md-card-actions>
       </md-card>
-
-      <!--<md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>-->
     </form>
   </div>
 </template>
@@ -99,11 +118,10 @@ export default {
       price: null,
       stock: null,
       minimum_stock: null,
+      tcg: null,
       category: null,
     },
-    userSaved: false,
     sending: false,
-    lastUser: null
   }),
   validations: {
     form: {
@@ -120,6 +138,10 @@ export default {
         minLength: minLength(1)
       },
       minimum_stock: {
+        required,
+        minLength: minLength(1)
+      },
+      tcg: {
         required,
         minLength: minLength(1)
       },
@@ -151,6 +173,7 @@ export default {
       this.form.price = this.tmpProduct.price
       this.form.stock = this.tmpProduct.stock
       this.form.minimum_stock = this.tmpProduct.minimum_stock
+      this.form.tcg = this.tmpProduct.tcg
       this.form.category = this.tmpProduct.category_id
     },
     clearForm () {
@@ -159,9 +182,10 @@ export default {
       this.form.price=null
       this.form.stock=null
       this.form.minimum_stock=null
+      this.form.tcg=null
       this.form.category=null
     },
-    saveUser () {
+    saveProduct () {
       this.sending = true
       this.product.name = this.form.name
       this.product.price = this.form.price
@@ -174,10 +198,10 @@ export default {
             console.log(data)
           })
     },
-    validateUser () {
+    validateProduct () {
       this.$v.$touch()
       if (!this.$v.$invalid) {
-        this.saveUser()
+        this.saveProduct()
       }
     }
   },
@@ -186,11 +210,12 @@ export default {
         api.getProduct(this.$route.params.id)
             .done((data)=> {
               this.tmpProduct = data,
-                  this.form.name = data.name;
+              this.form.name = data.name;
               this.form.price = data.price,
-                  this.form.stock = data.stock,
-                  this.form.minimum_stock = data.minimum_stock,
-                  this.form.category = data.category_id
+              this.form.stock = data.stock,
+              this.form.minimum_stock = data.minimum_stock,
+              this.form.tcg = data.tcg,
+              this.form.category = data.category_id
             })
   }
 }
