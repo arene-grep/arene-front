@@ -222,7 +222,7 @@ export default {
   },
   beforeMount() {
     this.idProduct = this.$route.params.id,
-        api.getProduct(this.$route.params.id)
+        api.getProduct(this.idProduct)
             .done((data)=> {
               this.tmpProduct = data,
               this.form.name = data.name;
