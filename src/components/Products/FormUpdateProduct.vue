@@ -209,7 +209,7 @@ export default {
       api.updateProduct(this.idProduct, this.product)
           .done((data) => {
             console.log(this.product)
-            //window.location.pathname = '/products'
+            window.location.pathname = '/products'
             console.log(data)
           })
     },

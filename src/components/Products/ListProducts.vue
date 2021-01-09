@@ -11,9 +11,9 @@
 
     <md-list class="md-triple-line">
       <div v-for="product in products" :key="product.id">
-        <md-list-item :to="{name: 'getProductID', params:{id:product.id}}">
+        <md-list-item :to="{name: 'getProduct', params:{id:product.id}}">
           <md-avatar >
-            <img src="../assets/logo-arene.png">
+            <img src="../../assets/logo-arene.png">
           </md-avatar>
 
           <div class="md-list-item-text">
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import api from '../connection/api.js'
+import api from '../../connection/api.js'
 
 export default {
   name: 'TripleLine',

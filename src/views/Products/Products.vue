@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import ListProducts from "@/components/ListProducts";
+import ListProducts from "@/components/Products/ListProducts";
 export default {
   name: "Products",
   components: {ListProducts}

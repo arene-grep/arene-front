@@ -6,7 +6,7 @@
 
 <script>
 // @ is an alias to /src
-import FormAddProduct from '@/components/FormAddProduct.vue'
+import FormAddProduct from '@/components/Products/FormAddProduct.vue'
 
 export default {
   name: 'ProductAdd',

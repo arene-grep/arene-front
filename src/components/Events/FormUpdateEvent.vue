@@ -1,10 +1,10 @@
 <template>
-
+  <div>edit event</div>
 </template>
 
 <script>
 export default {
-name: "Events"
+name: "FormUpdateEvent"
 }
 </script>
 

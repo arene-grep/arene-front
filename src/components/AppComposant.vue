@@ -1,13 +1,13 @@
 <template>
   <div id="nav">
   <div class="page-container md-layout-column">
-    <md-toolbar class="md-primary" style="position: fixed;">
+    <md-toolbar class="md-primary" style="position: fixed; z-index: 10;">
       <md-button class="md-icon-button" @click="showNavigation = true">
         <md-icon>menu</md-icon>
       </md-button>
       <span class="md-title">Arene-Duel</span>
     </md-toolbar>
-    <md-drawer :md-active.sync="showNavigation" md-swipeable style="position: fixed;">
+    <md-drawer :md-active.sync="showNavigation" md-swipeable style="position: fixed; z-index: 10;">
       <md-toolbar class="md-transparent" md-elevation="0">
         <span class="md-title">Arene-Duel</span>
       </md-toolbar>
@@ -24,10 +24,17 @@
           <md-icon>add</md-icon>
           <span class="md-list-item-text">Ajouter un produit</span>
         </md-list-item>
-
+        <md-list-item to="/events" @click="showNavigation = false">
+          <md-icon>list</md-icon>
+          <span class="md-list-item-text">Afficher vos évènements</span>
+        </md-list-item>
+        <md-list-item to="/addEvent" @click="showNavigation = false">
+          <md-icon>add</md-icon>
+          <span class="md-list-item-text">Ajouter un évènement</span>
+        </md-list-item>
         <md-list-item to="/about" @click="showNavigation = false">
           <md-icon>settings</md-icon>
-          <span class="md-list-item-text">About</span>
+          <span class="md-list-item-text">Plus</span>
         </md-list-item>
       </md-list>
     </md-drawer>

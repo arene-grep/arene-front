@@ -56,10 +56,26 @@ function updateProduct(id, product) {
   });
 }
 
+function getEvents() {
+  return $.ajax({
+    url: APIENDPOINT + "events",
+    method: "GET"
+  });
+}
+
+function getEvent(id) {
+  return $.ajax({
+    url: APIENDPOINT + "events/" + id,
+    method: "GET"
+  });
+}
+
 export default {
   getProducts,
   getProduct,
   addProduct,
   deleteProduct,
-  updateProduct
+  updateProduct,
+  getEvents,
+  getEvent,
 };
