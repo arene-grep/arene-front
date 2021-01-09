@@ -26,7 +26,9 @@ function addProduct(product) {
       price: product.price,
       stock: product.stock,
       minimum_stock: product.minimum_stock,
-      category_id: product.category
+      category_id: product.category,
+      card_game_id: product.tcg,
+      language_id: product.language
     }
   });
 }
@@ -47,7 +49,9 @@ function updateProduct(id, product) {
       price: product.price,
       stock: product.stock,
       minimum_stock: product.minimum_stock,
-      category_id: product.category
+      category_id: product.category,
+      trading_card_game_id: product.tcg,
+      language_id: product.language
     }
   });
 }

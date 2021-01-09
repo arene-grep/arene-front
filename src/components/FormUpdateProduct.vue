@@ -53,22 +53,6 @@
 
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('tcg')">
-                <label for="tcg">Tcg</label>
-                <md-select id="tcg" name="tcg" autocomplete="tcg" v-model="form.tcg" :disabled="sending">
-                  <md-option value=1>1</md-option>
-                  <md-option value=2>2</md-option>
-                  <md-option value=3>3</md-option>
-                  <md-option value=4>4</md-option>
-                </md-select>
-                <span class="md-error" v-if="!$v.form.tcg.required">tcg obligatoire</span>
-                <span class="md-error" v-else-if="!$v.form.tcg.minLength">tcg au moins 1 tcg</span>
-              </md-field>
-            </div>
-          </div>
-
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('category')">
                 <label for="category">Catégorie</label>
                 <md-select id="category" name="category" autocomplete="category" v-model="form.category" :disabled="sending">
@@ -79,6 +63,37 @@
                 </md-select>
                 <span class="md-error" v-if="!$v.form.category.required">Il est obligatoire de donner la catégorie du produit</span>
                 <span class="md-error" v-else-if="!$v.form.category.between">Il faut donner une catégorie entre 1 et 4</span>
+              </md-field>
+            </div>
+          </div>
+
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('tcg')">
+                <label for="tcg">Tcg</label>
+                <md-select id="tcg" name="tcg" autocomplete="tcg" v-model="form.tcg" :disabled="sending">
+                  <md-option value=1>1</md-option>
+                  <md-option value=2>2</md-option>
+                  <md-option value=3>3</md-option>
+                  <md-option value=4>4</md-option>
+                  <md-option value=5>5</md-option>
+                </md-select>
+                <span class="md-error" v-if="!$v.form.tcg.required">tcg obligatoire</span>
+                <span class="md-error" v-else-if="!$v.form.tcg.between">tcg au moins 1 tcg</span>
+              </md-field>
+            </div>
+          </div>
+
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('language')">
+                <label for="language">Langue</label>
+                <md-select id="language" name="language" autocomplete="language" v-model="form.language" :disabled="sending">
+                  <md-option value=1>1</md-option>
+                  <md-option value=2>2</md-option>
+                </md-select>
+                <span class="md-error" v-if="!$v.form.language.required">Il est obligatoire de donner la langue du produit</span>
+                <span class="md-error" v-else-if="!$v.form.language.between">Il faut donner une langue entre 1 et 2</span>
               </md-field>
             </div>
           </div>
@@ -120,6 +135,7 @@ export default {
       minimum_stock: null,
       tcg: null,
       category: null,
+      language:null
     },
     sending: false,
   }),
@@ -143,12 +159,16 @@ export default {
       },
       tcg: {
         required,
-        minLength: minLength(1)
+        between: between(1, 5)
       },
       category: {
         required,
         between: between(1, 4)
       },
+      language: {
+        required,
+        between: between(1, 2)
+      }
     }
   },
   methods: {
@@ -173,17 +193,9 @@ export default {
       this.form.price = this.tmpProduct.price
       this.form.stock = this.tmpProduct.stock
       this.form.minimum_stock = this.tmpProduct.minimum_stock
-      this.form.tcg = this.tmpProduct.tcg
+      this.form.tcg = this.tmpProduct.trading_card_game_id
       this.form.category = this.tmpProduct.category_id
-    },
-    clearForm () {
-      this.$v.$reset()
-      this.form.name=null
-      this.form.price=null
-      this.form.stock=null
-      this.form.minimum_stock=null
-      this.form.tcg=null
-      this.form.category=null
+      this.form.language = this.tmpProduct.language_id
     },
     saveProduct () {
       this.sending = true
@@ -192,9 +204,12 @@ export default {
       this.product.stock = this.form.stock
       this.product.minimum_stock = this.form.minimum_stock
       this.product.category = this.form.category
+      this.product.tcg = this.form.tcg,
+      this.product.language = this.form.language
       api.updateProduct(this.idProduct, this.product)
           .done((data) => {
-            window.location.pathname = '/products'
+            console.log(this.product)
+            //window.location.pathname = '/products'
             console.log(data)
           })
     },
@@ -214,8 +229,9 @@ export default {
               this.form.price = data.price,
               this.form.stock = data.stock,
               this.form.minimum_stock = data.minimum_stock,
-              this.form.tcg = data.tcg,
+              this.form.tcg = data.trading_card_game_id,
               this.form.category = data.category_id
+              this.form.language = data.language_id
             })
   }
 }

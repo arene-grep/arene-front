@@ -16,14 +16,15 @@
           <md-icon>home</md-icon>
           <span class="md-list-item-text">Accueil</span>
         </md-list-item>
-        <md-list-item to="/addProduct" @click="showNavigation = false">
-          <md-icon>add</md-icon>
-          <span class="md-list-item-text">Ajouter un produit</span>
-        </md-list-item>
         <md-list-item to="/products" @click="showNavigation = false">
           <md-icon>list</md-icon>
           <span class="md-list-item-text">Afficher vos produits</span>
         </md-list-item>
+        <md-list-item to="/addProduct" @click="showNavigation = false">
+          <md-icon>add</md-icon>
+          <span class="md-list-item-text">Ajouter un produit</span>
+        </md-list-item>
+
         <md-list-item to="/about" @click="showNavigation = false">
           <md-icon>settings</md-icon>
           <span class="md-list-item-text">About</span>
