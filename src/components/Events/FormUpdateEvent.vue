@@ -10,7 +10,7 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('name')">
-                <label for="name">Nom du produit</label>
+                <label for="name">Nom de l'évènement</label>
                 <md-input name="name" id="name" autocomplete="given-name" v-model="form.name" :disabled="sending" />
                 <span class="md-error" v-if="!$v.form.name.required">Il est obligatoire de donner un nom à l'évènement</span>
                 <span class="md-error" v-else-if="!$v.form.name.minlength">Le nom de l'évènement est trop petit</span>
