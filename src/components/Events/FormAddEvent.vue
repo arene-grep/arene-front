@@ -39,7 +39,7 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('date')">
                 <label for="date"></label>
-                <md-input type="date" id="date" name="date" autocomplete="date" v-model="form.date" :disabled="sending" />
+                <VueCtkDateTimePicker label="Date" format="YYYY-MM-DD HH:mm" id="date" name="date" autocomplete="date" v-model="form.date" :disabled="sending" />
                 <span class="md-error" v-if="!$v.form.date.required">Il est obligatoire de donner la date d'ajout</span>
               </md-field>
             </div>
@@ -108,7 +108,7 @@ name: "FormAddEvent",
       this.$v.$reset()
       this.form.name=null
       this.form.tcg=null
-      this.date=null
+      this.form.date=null
     },
     saveEvent () {
       this.sending = true

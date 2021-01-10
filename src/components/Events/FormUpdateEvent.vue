@@ -3,7 +3,7 @@
     <form novalidate class="md-layout" @submit.prevent="validateEvent">
       <md-card class="md-layout-item">
         <md-card-header>
-          <div class="md-title">Ajouter un évènement</div>
+          <div class="md-title">Modifier un évènement</div>
         </md-card-header>
 
         <md-card-content>
@@ -39,8 +39,8 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('date')">
                 <label for="date"></label>
-                <md-input type="date" id="date" name="date" autocomplete="date" v-model="form.date" :disabled="sending" />
-                <span class="md-error" v-if="!$v.form.date.required">Il est obligatoire de donner la date d'ajout</span>
+                <VueCtkDateTimePicker label="Date" format="YYYY-MM-DD HH:mm" id="date" name="date" autocomplete="date" v-model="form.date" :disabled="sending" />
+                <span class="md-error" v-if="!$v.form.date.required">Il est obligatoire de donner la date de l'évènement</span>
               </md-field>
             </div>
           </div>
@@ -124,8 +124,9 @@ export default {
       this.event.name = this.form.name
       this.event.tcg = this.form.tcg
       this.event.date = this.form.date
+      // format date 2021-01-09 13:53:33
       console.log(this.event)
-      api.addEvent(this.event)
+      api.updateEvent(this.idEvent, this.event)
           .done((data) => {
             window.location.pathname = '/events'
             console.log(data)

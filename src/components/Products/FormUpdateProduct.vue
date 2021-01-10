@@ -21,7 +21,7 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('price')">
-                <label for="price">Price</label>
+                <label for="price">Prix</label>
                 <md-input type="number" id="price" name="price" autocomplete="price" v-model="form.price" :disabled="sending" />
                 <span class="md-error" v-if="!$v.form.price.required">Il est obligatoire de donner un prix au produit</span>
                 <span class="md-error" v-else-if="!$v.form.price.minLength">Le prx est trop petit</span>
@@ -33,7 +33,7 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('stock')">
                 <label for="stock">Quantité</label>
-                <md-input type="stock" id="stock" name="stock" autocomplete="stock" v-model="form.stock" :disabled="sending" />
+                <md-input type="number" id="stock" name="stock" autocomplete="stock" v-model="form.stock" :disabled="sending" />
                 <span class="md-error" v-if="!$v.form.stock.required">Il est obligatoire de donner la quantité à ajouter</span>
                 <span class="md-error" v-else-if="!$v.form.stock.minLength">La quantité doit au moins être de 0</span>
               </md-field>
@@ -44,9 +44,28 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('minimum_stock')">
                 <label for="minimum_stock">Stock minimal</label>
-                <md-input type="minimum_stock" id="minimum_stock" name="minimum_stock" autocomplete="minimum_stock" v-model="form.minimum_stock" :disabled="sending" />
+                <md-input type="number" id="minimum_stock" name="minimum_stock" autocomplete="minimum_stock" v-model="form.minimum_stock" :disabled="sending" />
                 <span class="md-error" v-if="!$v.form.minimum_stock.required">Il est obligatoire de donner le stock minimal du produit</span>
                 <span class="md-error" v-else-if="!$v.form.minimum_stock.minLength">La quantité doit au moins être à 0</span>
+              </md-field>
+            </div>
+          </div>
+
+
+
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('tcg')">
+                <label for="tcg">Jeu de cartes</label>
+                <md-select id="tcg" name="tcg" autocomplete="tcg" v-model="form.tcg" :disabled="sending">
+                  <md-option value=1>1</md-option>
+                  <md-option value=2>2</md-option>
+                  <md-option value=3>3</md-option>
+                  <md-option value=4>4</md-option>
+                  <md-option value=5>5</md-option>
+                </md-select>
+                <span class="md-error" v-if="!$v.form.tcg.required">tcg obligatoire</span>
+                <span class="md-error" v-else-if="!$v.form.tcg.between">tcg au moins 1 tcg</span>
               </md-field>
             </div>
           </div>
@@ -67,22 +86,8 @@
             </div>
           </div>
 
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('tcg')">
-                <label for="tcg">Tcg</label>
-                <md-select id="tcg" name="tcg" autocomplete="tcg" v-model="form.tcg" :disabled="sending">
-                  <md-option value=1>1</md-option>
-                  <md-option value=2>2</md-option>
-                  <md-option value=3>3</md-option>
-                  <md-option value=4>4</md-option>
-                  <md-option value=5>5</md-option>
-                </md-select>
-                <span class="md-error" v-if="!$v.form.tcg.required">tcg obligatoire</span>
-                <span class="md-error" v-else-if="!$v.form.tcg.between">tcg au moins 1 tcg</span>
-              </md-field>
-            </div>
-          </div>
+
+
 
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">

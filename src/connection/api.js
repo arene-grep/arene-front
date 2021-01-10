@@ -82,6 +82,18 @@ function addEvent(event) {
   });
 }
 
+function updateEvent(id, event) {
+  return $.ajax({
+    url: APIENDPOINT + "events/" + id,
+    method: "PUT",
+    data: {
+      name: event.name,
+      trading_card_game_id: event.tcg,
+      date: event.date
+    }
+  });
+}
+
 function deleteEvent(id) {
   return $.ajax({
     url: APIENDPOINT + "events/" + id,
@@ -98,5 +110,6 @@ export default {
   getEvents,
   getEvent,
   addEvent,
-  deleteEvent
+  deleteEvent,
+  updateEvent
 };

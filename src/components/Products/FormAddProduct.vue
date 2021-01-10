@@ -55,7 +55,7 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('tcg')">
-                <label for="tcg">Tcg</label>
+                <label for="tcg">Jeu de cartes</label>
                 <md-select id="tcg" name="tcg" autocomplete="tcg" v-model="form.tcg" :disabled="sending">
                   <md-option value=1>1</md-option>
                   <md-option value=2>2</md-option>

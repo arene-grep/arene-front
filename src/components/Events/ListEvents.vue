@@ -19,7 +19,7 @@
           <div class="md-list-item-text">
             <span>{{ event.name }}</span>
             <span>{{ event.date }}</span>
-            <p>Jeu de carte : {{ event.trading_card_game_id }}</p>
+            <p>Jeu de cartes : {{ event.trading_card_game_id }}</p>
           </div>
         </md-list-item>
         <md-divider class="md-inset"></md-divider>
