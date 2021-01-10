@@ -8,18 +8,17 @@
       <div class="md-title">Vos produits</div>
     </md-card-header>
     </md-list>
-
     <md-list class="md-triple-line">
       <div v-for="product in products" :key="product.id">
         <md-list-item :to="{name: 'getProduct', params:{id:product.id}}">
           <md-avatar >
             <img src="../../assets/logo-arene.png">
           </md-avatar>
-
           <div class="md-list-item-text">
             <span>{{ product.name }}</span>
             <span>CHF {{ product.price }}</span>
-            <p>{{ product.stock }} pièces en stock</p>
+            <p v-if="product.stock==1">{{ product.stock }} pièce en stock</p>
+            <p v-else>{{ product.stock }} pièces en stock</p>
           </div>
         </md-list-item>
         <md-divider class="md-inset"></md-divider>

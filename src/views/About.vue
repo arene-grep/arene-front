@@ -1,18 +1,21 @@
 <template>
-  <div>
-    <md-datepicker value="yyyy:MM:dd"/>
-
-    <VueCtkDateTimePicker v-model="timedate" label="hello" format="YYYY-MM-DD HH:mm"/>
-    <p>Le message est : {{ timedate }}</p>
+  <div  to="/products">
+    <div style="width: 100px; float:left; height:100px; background:gray; margin:10px">
+      First DIV
+    </div>
+    <div style="width: 100px; float:left; height:100px; background:yellow; margin:10px">
+      Second DIV
+    </div>
   </div>
 </template>
+
+
+
 <script>
-// @ is an alias to /src
+
 
 export default {
-  name: "About",
-  data: () => ({
-    timedate:null
-  })
-};
+  name: 'RegularCards',
+
+}
 </script>

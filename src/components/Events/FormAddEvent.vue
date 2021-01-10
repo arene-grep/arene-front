@@ -10,10 +10,9 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('name')">
-                <label for="name">Nom de l'évènement</label>
+                <label for="name">Nom</label>
                 <md-input name="name" id="name" autocomplete="given-name" v-model="form.name" :disabled="sending" />
-                <span class="md-error" v-if="!$v.form.name.required">Il est obligatoire de donner un nom à l'évènement</span>
-                <span class="md-error" v-else-if="!$v.form.name.minlength">Le nom de l'évènement est trop petit</span>
+                <span class="md-error" v-if="!$v.form.name.required">Il est obligatoire de renseigner un nom.</span>
               </md-field>
             </div>
           </div>
@@ -21,7 +20,7 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('tcg')">
-                <label for="tcg">Trading game card</label>
+                <label for="tcg">Jeu de cartes</label>
                 <md-select id="tcg" name="tcg" autocomplete="tcg" v-model="form.tcg" :disabled="sending">
                   <md-option value=1>1</md-option>
                   <md-option value=2>2</md-option>
@@ -29,8 +28,8 @@
                   <md-option value=4>4</md-option>
                   <md-option value=5>5</md-option>
                 </md-select>
-                <span class="md-error" v-if="!$v.form.tcg.required">Il est obligatoire de renseigner un TCG</span>
-                <span class="md-error" v-else-if="!$v.form.tcg.between">Il faut sélectionner un TCG valide</span>
+                <span class="md-error" v-if="!$v.form.tcg.required">Il est obligatoire de renseigner le jeu de cartes lié à cet évènement.</span>
+                <span class="md-error" v-else-if="!$v.form.tcg.between">Il est obligatoire de sélectionner un des jeu de cartes proposés.</span>
               </md-field>
             </div>
           </div>
@@ -40,15 +39,12 @@
               <md-field :class="getValidationClass('date')">
                 <label for="date"></label>
                 <VueCtkDateTimePicker label="Date" format="YYYY-MM-DD HH:mm" id="date" name="date" autocomplete="date" v-model="form.date" :disabled="sending" />
-                <span class="md-error" v-if="!$v.form.date.required">Il est obligatoire de donner la date d'ajout</span>
+                <span class="md-error" v-if="!$v.form.date.required">Il est obligatoire de renseigner la date prévue.</span>
               </md-field>
             </div>
           </div>
-
         </md-card-content>
-
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
-
         <md-card-actions>
           <md-button class="md-dense md-raised md-primary" type="submit" :disabled="sending">Ajouter</md-button>
           <md-button class="md-dense md-raised md-primary" :disabled="sending" @click="clearForm()">Réinitialiser</md-button>
@@ -60,10 +56,8 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
-//import api from "@/connection/api";
 import {
   required,
-  minLength,
   between
 } from 'vuelidate/lib/validators'
 import api from "@/connection/api";
@@ -83,7 +77,6 @@ name: "FormAddEvent",
     form: {
       name: {
         required,
-        minLength: minLength(1)
       },
       tcg: {
         required,
@@ -97,7 +90,6 @@ name: "FormAddEvent",
   methods: {
     getValidationClass (fieldName) {
       const field = this.$v.form[fieldName]
-
       if (field) {
         return {
           'md-invalid': field.$invalid && field.$dirty

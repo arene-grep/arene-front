@@ -5,11 +5,11 @@
       <md-button class="md-icon-button" @click="showNavigation = true">
         <md-icon>menu</md-icon>
       </md-button>
-      <span class="md-title">Arene-Duel</span>
+      <span class="md-title">L'Arène de Duel</span>
     </md-toolbar>
     <md-drawer :md-active.sync="showNavigation" md-swipeable style="position: fixed; z-index: 10;">
       <md-toolbar class="md-transparent" md-elevation="0">
-        <span class="md-title">Arene-Duel</span>
+        <span class="md-title">L'Arène de Duel</span>
       </md-toolbar>
       <md-list>
         <md-list-item to="/home" @click="showNavigation = false">
@@ -17,24 +17,24 @@
           <span class="md-list-item-text">Accueil</span>
         </md-list-item>
         <md-list-item to="/products" @click="showNavigation = false">
-          <md-icon>list</md-icon>
+          <md-icon>shopping_cart</md-icon>
           <span class="md-list-item-text">Afficher vos produits</span>
         </md-list-item>
-        <md-list-item to="/addProduct" @click="showNavigation = false">
+        <!--<md-list-item to="/addProduct" @click="showNavigation = false">
           <md-icon>add</md-icon>
           <span class="md-list-item-text">Ajouter un produit</span>
-        </md-list-item>
+        </md-list-item>-->
         <md-list-item to="/events" @click="showNavigation = false">
-          <md-icon>list</md-icon>
+          <md-icon>event</md-icon>
           <span class="md-list-item-text">Afficher vos évènements</span>
         </md-list-item>
-        <md-list-item to="/addEvent" @click="showNavigation = false">
-          <md-icon>add</md-icon>
+        <!--<md-list-item to="/addEvent" @click="showNavigation = false">
+          <md-icon>event</md-icon>
           <span class="md-list-item-text">Ajouter un évènement</span>
-        </md-list-item>
+        </md-list-item>-->
         <!--<md-list-item to="/about" @click="showNavigation = false">
           <md-icon>settings</md-icon>
-          <span class="md-list-item-text">Plus</span>
+          <span class="md-list-item-text">About</span>
         </md-list-item>-->
       </md-list>
     </md-drawer>
@@ -50,7 +50,6 @@ export default {
   name: "Temporary",
   data: () => ({
     showNavigation: false,
-    showSidepanel: false
   })
 }
 </script>
