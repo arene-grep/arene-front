@@ -1,7 +1,7 @@
 import $ from "jquery";
 
-const APIENDPOINT = 'http://localhost:8000/api/'
-//const APIENDPOINT = "https://api-arene.menopi.ch/api/";
+//const APIENDPOINT = 'http://localhost:8000/api/'
+const APIENDPOINT = "https://api-arene.menopi.ch/api/";
 
 function getProducts() {
   return $.ajax({
