@@ -27,7 +27,7 @@
       </md-list>
     </md-drawer>
     <br><br><br><br>
-    <img alt="Vue logo" src="../../assets/logo-arene.png" />
+    <img src="../../assets/logo-arene.png" />
     <br><br>
   </div>
   </div>

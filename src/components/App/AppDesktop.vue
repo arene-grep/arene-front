@@ -19,7 +19,7 @@
       <md-app-content>
       </md-app-content>
     </md-app>
-    <img alt="Vue logo" src="../../assets/logo-arene.png" />
+    <img src="../../assets/logo-arene.png" />
     <br><br>
   </div>
 </template>
