@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <md-app md-waterfall md-mode="fixed-last">
+    <md-app md-waterfall md-mode="fixed-last" style="position: fixed; width: 100%; z-index: 10">
       <md-app-toolbar class="md-large md-dense md-primary">
         <div class="md-toolbar-row">
           <div class="md-toolbar-section-start">
@@ -19,6 +19,7 @@
       <md-app-content>
       </md-app-content>
     </md-app>
+    <br><br><br><br><br><br><br>
     <img src="../../assets/logo-arene.png" />
     <br><br>
   </div>
@@ -30,6 +31,13 @@
 .md-drawer {
   width: 230px;
   max-width: calc(100vw - 125px);
+}
+
+.page-container {
+  min-height: 100px;
+  overflow: hidden;
+  //position: relative;
+  //border: 1px solid rgba(#000, .12);
 }
 </style>
 
