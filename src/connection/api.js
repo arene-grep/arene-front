@@ -30,7 +30,7 @@ function addProduct(product) {
       category_id: product.category,
       trading_card_game_id: product.tcg,
       language_id: product.language
-    }
+    },
   });
 }
 

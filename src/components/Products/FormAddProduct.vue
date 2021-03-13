@@ -99,7 +99,6 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
-import api from "@/connection/api";
 import {
   required,
   between
@@ -171,6 +170,7 @@ export default {
       this.form.language=null
     },
     saveProduct () {
+      const _this = this
       this.sending = true
       this.product.name = this.form.name
       this.product.price = this.form.price
@@ -180,10 +180,18 @@ export default {
       this.product.tcg = this.form.tcg
       this.product.language = this.form.language
       console.log(this.product)
-      api.addProduct(this.product)
-          .done((data) => {
-            window.location.pathname = '/products'
-            console.log(data)
+      // api.addProduct(this.product)
+      //     .done((data) => {
+      //       window.location.pathname = '/products'
+      //       console.log(data)
+      //     })
+      this.$store.dispatch('addProduct', this.product)
+      .then(() => this.$router.push('/products'))
+          .catch(function (error) {
+            console.log("dans le add error : ")
+            console.log(error)
+            _this.badLogin = true
+            _this.sending = false
           })
     },
     validateProduct () {

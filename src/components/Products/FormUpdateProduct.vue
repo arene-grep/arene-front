@@ -122,7 +122,7 @@ export default {
     active:false,
     product:{},
     tmpProduct:{},
-    idProduct:null,
+    idProduct:0,
     form: {
       name: null,
       price: null,
@@ -177,10 +177,13 @@ export default {
       }
     },
     deleteProduct () {
-      api.deleteProduct(this.idProduct)
-          .done((data) => {
-            window.location.pathname = '/products'
-            console.log(data)
+      const _this = this
+      this.product.id = this.idProduct
+      this.$store.dispatch('deleteProduct', this.product)
+          .then(() => this.$router.push('/products'))
+          .catch(function (error) {
+            console.log(error)
+            _this.sending = false
           })
     },
     resetProduct () {
@@ -194,18 +197,22 @@ export default {
     },
     saveProduct () {
       this.sending = true
+      this.product.id = this.idProduct
       this.product.name = this.form.name
       this.product.price = this.form.price
       this.product.stock = this.form.stock
       this.product.minimum_stock = this.form.minimum_stock
       this.product.category = this.form.category
-      this.product.tcg = this.form.tcg,
+      this.product.tcg = this.form.tcg
       this.product.language = this.form.language
-      api.updateProduct(this.idProduct, this.product)
-          .done((data) => {
-            console.log(this.product)
-            window.location.pathname = '/products'
-            console.log(data)
+      const _this = this
+      this.$store.dispatch('updateProduct', this.product)
+          .then(() => this.$router.push('/products'))
+          .catch(function (error) {
+            console.log("dans le add error : ")
+            console.log(error)
+            _this.badLogin = true
+            _this.sending = false
           })
     },
     validateProduct () {
