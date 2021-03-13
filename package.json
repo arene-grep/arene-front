@@ -24,6 +24,7 @@
     "cordova-serve-osx": "cross-env CORDOVA_PLATFORM=osx vue-cli-service cordova-serve-osx"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "jquery": "^3.5.1",
     "luxon": "^1.25.0",
@@ -38,6 +39,7 @@
     "vue2-timepicker": "^1.1.5",
     "vuelidate": "^0.7.6",
     "vuex": "^3.4.0",
+    "vuex-persistedstate": "^4.0.0-beta.3",
     "weekstart": "^1.0.1"
   },
   "devDependencies": {
