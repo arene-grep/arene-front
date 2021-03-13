@@ -1,25 +1,19 @@
 <template>
   <div>
-    <md-button class="md-fab md-primary md-fixed md-fab-bottom-right" to="/addEvent">
-      <md-icon>add</md-icon>
-    </md-button>
     <md-list class="md-triple-line">
       <md-card-header>
-        <div class="md-title">Vos évènements</div>
+        <div class="md-title">Vos commandes</div>
       </md-card-header>
     </md-list>
-
     <md-list class="md-triple-line">
-      <div v-for="event in events" :key="event.id">
-        <md-list-item :to="{name: 'getEvent', params:{id:event.id}}">
+      <div v-for="order in orders" :key="order.id">
+        <md-list-item :to="{name: 'getOrder', params:{id:order.id}}">
           <md-avatar >
             <img src="../../assets/logo-arene.png">
           </md-avatar>
-
           <div class="md-list-item-text">
-            <span>{{ event.name }}</span>
-            <span>{{ event.date }}</span>
-            <p>Jeu de cartes : {{ event.trading_card_game_id }}</p>
+            <span>Numéro de commande : {{ order.id }}</span>
+            <span>Date : {{ order.date }}</span>
           </div>
         </md-list-item>
         <md-divider class="md-inset"></md-divider>
@@ -29,27 +23,23 @@
 </template>
 
 <script>
-import api from "@/connection/api";
 
 export default {
-name: "ListEvents",
+  name: 'TripleLine',
   data: () => {
     return {
-      events:[]
+      orders:[]
     }
   },
   beforeMount() {
-    api.getEvents()
-        .done((data)=> {
-          this.events = data
-          console.log(this.events)
+    this.$store.dispatch('getOrders')
+        .then(data => {
+          this.orders = data
         })
-        .fail(() => {
-        })
-        .always(()=> {
-        })
+        .catch(err => console.log(err))
   }
 }
+
 </script>
 
 <style lang="scss" scoped>

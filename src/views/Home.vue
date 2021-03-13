@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <br>
     <h2>Bienvenue!</h2>
   </div>
 </template>

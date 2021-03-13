@@ -7,13 +7,13 @@
             <span class="md-title">L'Arène de Duel</span>
           </div>
         </div>
-
         <div class="md-toolbar-row" style="justify-content:center;">
           <md-tabs class="md-primary">
             <md-tab id="tab-home" md-label="Accueil" to="/home"></md-tab>
-            <md-tab id="tab-products" md-label="Produits" to="/products"></md-tab>
-            <md-tab id="tab-events" md-label="Évènements" to="/events"></md-tab>
-            <md-tab id="tab-account" md-label="Account" to="/account"></md-tab>
+            <md-tab id="tab-products" md-label="Produits" to="/products" v-if="isLoggedIn"></md-tab>
+            <md-tab id="tab-events" md-label="Événements" to="/events" v-if="isLoggedIn"></md-tab>
+            <md-tab id="tab-orders" md-label="Commandes" to="/orders" v-if="isLoggedIn"></md-tab>
+            <md-tab id="tab-account" md-label="Account" to="/account" v-if="isLoggedIn"></md-tab>
             <md-tab id="tab-logout" md-label="Logout" @click="logout" v-if="isLoggedIn"></md-tab>
           </md-tabs>
         </div>
@@ -21,9 +21,7 @@
       <md-app-content>
       </md-app-content>
     </md-app>
-    <br><br><br><br><br><br><br>
-    <img src="../../assets/logo-arene.png" />
-    <br><br>
+    <br><br><br><br><br><br>
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="md-list">
     <form novalidate class="md-layout" @submit.prevent="validateProduct">
       <md-card class="md-layout-item">
         <md-card-header>
@@ -45,7 +45,7 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('tcg')">
-                <label for="tcg">Jeu de cartes</label>
+                <label>Jeu de cartes</label>
                 <md-select id="tcg" name="tcg" autocomplete="tcg" v-model="form.tcg" :disabled="sending">
                   <md-option value=1>1</md-option>
                   <md-option value=2>2</md-option>
@@ -61,7 +61,7 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('category')">
-                <label for="category">Catégorie</label>
+                <label>Catégorie</label>
                 <md-select id="category" name="category" autocomplete="category" v-model="form.category" :disabled="sending">
                   <md-option value=1>1</md-option>
                   <md-option value=2>2</md-option>
@@ -76,7 +76,7 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('language')">
-                <label for="language">Langue</label>
+                <label>Langue</label>
                 <md-select id="language" name="language" autocomplete="language" v-model="form.language" :disabled="sending">
                   <md-option value=1>1</md-option>
                   <md-option value=2>2</md-option>
@@ -211,7 +211,6 @@ export default {
           .catch(function (error) {
             console.log("dans le add error : ")
             console.log(error)
-            _this.badLogin = true
             _this.sending = false
           })
     },
@@ -245,5 +244,11 @@ export default {
   top: 0;
   right: 0;
   left: 0;
+}
+.md-list {
+  width: 25000px;
+  max-width: 85%;
+  display: inline-block;
+  vertical-align: top;
 }
 </style>

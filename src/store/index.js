@@ -104,8 +104,7 @@ export default new Vuex.Store({
                 delete axios.defaults.headers.common.Authorization
                 resolve()
             })
-        }
-        ,
+        },
         addProduct({commit}, product) {
             commit('r')
             const _token = localStorage.getItem('token')
@@ -143,7 +142,6 @@ export default new Vuex.Store({
         deleteProduct({commit}, product) {
             commit('r')
             const _token = localStorage.getItem('token')
-            console.log('id : ', product)
             return axios.request({
                 url: APIENDPOINT + "products/" + product.id,
                 method: "DELETE",
@@ -156,6 +154,84 @@ export default new Vuex.Store({
             }).catch((error) => {
                 console.log(error)
             })
+        },
+        addEvent({commit}, event) {
+            commit('r')
+            const _token = localStorage.getItem('token')
+            return axios.request({
+                url: APIENDPOINT + "events",
+                method: "POST",
+                headers: {
+                    Authorization: 'Bearer ' + _token,
+                    Accept: 'application/json'
+                },
+                data: event
+            }).then((response) => {
+                console.log(response)
+            }).catch((error) => {
+                console.log(error)
+            })
+        },
+        updateEvent({commit}, event) {
+            commit('r')
+            const _token = localStorage.getItem('token')
+            return axios.request({
+                url: APIENDPOINT + "events/" + event.id,
+                method: "PUT",
+                headers: {
+                    Authorization: 'Bearer ' + _token,
+                    Accept: 'application/json'
+                },
+                data: event
+            }).then((response) => {
+                console.log(response)
+            }).catch((error) => {
+                console.log(error)
+            })
+        },
+        deleteEvent({commit}, event) {
+            commit('r')
+            const _token = localStorage.getItem('token')
+            return axios.request({
+                url: APIENDPOINT + "events/" + event.id,
+                method: "DELETE",
+                headers: {
+                    Authorization: 'Bearer ' + _token,
+                    Accept: 'application/json'
+                },
+            }).then((response) => {
+                console.log(response)
+            }).catch((error) => {
+                console.log(error)
+            })
+        },
+        getOrders({commit}) {
+            commit('r')
+            const _token = localStorage.getItem('token')
+            const promise = axios.request({
+                url: APIENDPOINT + "orders",
+                method: "GET",
+                headers: {
+                    Authorization: 'Bearer ' + _token,
+                    Accept: 'application/json'
+                },
+            })
+            const dataPromise = promise.then((response) => response.data)
+            return dataPromise
+        },
+        getOrder({commit}, idOrder) {
+            commit('r')
+            const _token = localStorage.getItem('token')
+            const promise = axios.request({
+                url: APIENDPOINT + "orders/" + idOrder,
+                method: "GET",
+                headers: {
+                    Authorization: 'Bearer ' + _token,
+                    Accept: 'application/json'
+                },
+            })
+            const dataPromise = promise.then((response) => response.data)
+            return dataPromise
         }
     },
     modules: {}

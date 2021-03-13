@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="md-list">
     <form novalidate class="md-layout" @submit.prevent="validateEvent">
       <md-card class="md-layout-item">
         <md-card-header>
@@ -19,17 +19,17 @@
 
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('tcg')">
-                <label for="tcg">Jeu de cartes</label>
-                <md-select id="tcg" name="tcg" autocomplete="tcg" v-model="form.tcg" :disabled="sending">
+              <md-field :class="getValidationClass('trading_card_game_id')">
+                <label>Jeu de cartes</label>
+                <md-select id="trading_card_game_id" name="trading_card_game_id" autocomplete="trading_card_game_id" v-model="form.trading_card_game_id" :disabled="sending">
                   <md-option value=1>1</md-option>
                   <md-option value=2>2</md-option>
                   <md-option value=3>3</md-option>
                   <md-option value=4>4</md-option>
                   <md-option value=5>5</md-option>
                 </md-select>
-                <span class="md-error" v-if="!$v.form.tcg.required">Il est obligatoire de renseigner le jeu de cartes lié à cet évènement.</span>
-                <span class="md-error" v-else-if="!$v.form.tcg.between">Il est obligatoire de sélectionner un des jeu de cartes proposés.</span>
+                <span class="md-error" v-if="!$v.form.trading_card_game_id.required">Il est obligatoire de renseigner le jeu de cartes lié à cet évènement.</span>
+                <span class="md-error" v-else-if="!$v.form.trading_card_game_id.between">Il est obligatoire de sélectionner un des jeu de cartes proposés.</span>
               </md-field>
             </div>
           </div>
@@ -60,7 +60,6 @@ import {
   required,
   between
 } from 'vuelidate/lib/validators'
-import api from "@/connection/api";
 export default {
 name: "FormAddEvent",
   mixins: [validationMixin],
@@ -68,7 +67,7 @@ name: "FormAddEvent",
     event:{},
     form: {
       name: null,
-      tcg: null,
+      trading_card_game_id: null,
       date: null,
     },
     sending: false,
@@ -78,7 +77,7 @@ name: "FormAddEvent",
       name: {
         required,
       },
-      tcg: {
+      trading_card_game_id: {
         required,
         between: between(1, 5)
       },
@@ -99,19 +98,21 @@ name: "FormAddEvent",
     clearForm () {
       this.$v.$reset()
       this.form.name=null
-      this.form.tcg=null
+      this.form.trading_card_game_id=null
       this.form.date=null
     },
     saveEvent () {
       this.sending = true
       this.event.name = this.form.name
-      this.event.tcg = this.form.tcg
+      this.event.trading_card_game_id = this.form.trading_card_game_id
       this.event.date = this.form.date
-      console.log(this.event)
-      api.addEvent(this.event)
-          .done((data) => {
-            window.location.pathname = '/events'
-            console.log(data)
+      const _this = this
+      console.log("my event : ", this.event)
+      this.$store.dispatch('addEvent', this.event)
+          .then(() => this.$router.push('/events'))
+          .catch(function (error) {
+            console.log(error)
+            _this.sending = false
           })
     },
     validateEvent () {
@@ -130,5 +131,11 @@ name: "FormAddEvent",
   top: 0;
   right: 0;
   left: 0;
+}
+.md-list {
+  width: 25000px;
+  max-width: 85%;
+  display: inline-block;
+  vertical-align: top;
 }
 </style>

@@ -10,42 +10,67 @@ const routes = [
   {
     path: "/home",
     name: "Home",
-    component: Home
+    component: Home,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/addProduct",
     name: "addProduct",
-    component: () => import("../views/Products/ProductAdd.vue")
+    component: () => import("../views/Products/ProductAdd.vue"),
+    meta: {
+      requiresAuth: true
+    }
+
   },
   {
     path: "/products",
     name: "getProducts",
-    component: () => import("../views/Products/Products.vue")
+    component: () => import("../views/Products/Products.vue"),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/products/:id",
     name: "getProduct",
-    component: () => import("../views/Products/ProductUpdate.vue")
+    component: () => import("../views/Products/ProductUpdate.vue"),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/about",
     name: "about",
-    component: () => import("../views/About.vue")
+    component: () => import("../views/About.vue"),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/events",
     name: "getEvents",
-    component: () => import("../views/Events/Events.vue")
+    component: () => import("../views/Events/Events.vue"),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/events/:id",
     name: "getEvent",
-    component: () => import("../views/Events/EventUpdate.vue")
+    component: () => import("../views/Events/EventUpdate.vue"),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/addEvent/",
     name: "addEvent",
-    component: () => import("../views/Events/EventAdd")
+    component: () => import("../views/Events/EventAdd"),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/login',
@@ -61,6 +86,22 @@ const routes = [
     path: '/account',
     name: 'Account',
     component: () => import('../views/Account/Account.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/orders/",
+    name: "getOrders",
+    component: () => import("../views/Orders/Orders"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/orders/:id",
+    name: "getOrder",
+    component: () => import("../views/Orders/OrderUpdate"),
     meta: {
       requiresAuth: true
     }

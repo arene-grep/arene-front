@@ -46,14 +46,6 @@ export default {
         })
         .always(()=> {
         })
-  },
-  methods: {
-    getProduct: function(id){
-      api.getProduct(id)
-          .done((data)=> {
-            console.log(data)
-          })
-    }
   }
 }
 
