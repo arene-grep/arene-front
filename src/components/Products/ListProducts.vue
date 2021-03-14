@@ -12,7 +12,7 @@
       <div v-for="product in products" :key="product.id">
         <md-list-item :to="{name: 'getProduct', params:{id:product.id}}">
           <md-avatar >
-            <img src="../../assets/logo-arene.png">
+            <img :src='"../../assets/products/product_"+product.id+".jpg"'>
           </md-avatar>
           <div class="md-list-item-text">
             <span>{{ product.name }}</span>

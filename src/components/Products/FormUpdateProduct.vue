@@ -6,11 +6,21 @@
           <div class="md-title">Modifier un produit</div>
         </md-card-header>
         <md-card-content>
+            <img :src='"../../assets/products/product_"+tmpProduct.id+".jpg"'>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('name')">
                 <label for="name">Nom</label>
                 <md-input name="name" id="name" autocomplete="given-name" v-model="form.name" :disabled="sending" />
+                <span class="md-error" v-if="!$v.form.name.required">Il est obligatoire de renseigner un nom.</span>
+              </md-field>
+            </div>
+          </div>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('description')">
+                <label for="description">Description</label>
+                <md-textarea name="description" id="description" autocomplete="given-name" v-model="form.name" :disabled="sending" md-autogrow/>
                 <span class="md-error" v-if="!$v.form.name.required">Il est obligatoire de renseigner un nom.</span>
               </md-field>
             </div>
@@ -47,11 +57,7 @@
               <md-field :class="getValidationClass('tcg')">
                 <label>Jeu de cartes</label>
                 <md-select id="tcg" name="tcg" autocomplete="tcg" v-model="form.tcg" :disabled="sending">
-                  <md-option value=1>1</md-option>
-                  <md-option value=2>2</md-option>
-                  <md-option value=3>3</md-option>
-                  <md-option value=4>4</md-option>
-                  <md-option value=5>5</md-option>
+                  <md-option v-for="tcgame in tcgames" :key="tcgame.id" :value=" tcgame.id ">{{ tcgame.name }}</md-option>
                 </md-select>
                 <span class="md-error" v-if="!$v.form.tcg.required">Il est obligatoire de renseigner le jeu de cartes auquel appartient le produit.</span>
                 <span class="md-error" v-else-if="!$v.form.tcg.between">Il est obligatoire de sélectionner un des jeu de cartes proposés.</span>
@@ -62,12 +68,9 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('category')">
                 <label>Catégorie</label>
-                <md-select id="category" name="category" autocomplete="category" v-model="form.category" :disabled="sending">
-                  <md-option value=1>1</md-option>
-                  <md-option value=2>2</md-option>
-                  <md-option value=3>3</md-option>
-                  <md-option value=4>4</md-option>
-                </md-select>
+                <md-select id="categoty" name="categoty" autocomplete="categoty" v-model="form.category" :disabled="sending">
+                            <md-option v-for="category in categories" :key="category.id" :value=" category.id ">{{ category.name }}</md-option>
+                            </md-select>
                 <span class="md-error" v-if="!$v.form.category.required">Il est obligatoire de renseigner la catégorie.</span>
                 <span class="md-error" v-else-if="!$v.form.category.between">Il est obligatoire de sélectionner une des catégories proposées.</span>
               </md-field>
@@ -78,11 +81,14 @@
               <md-field :class="getValidationClass('language')">
                 <label>Langue</label>
                 <md-select id="language" name="language" autocomplete="language" v-model="form.language" :disabled="sending">
-                  <md-option value=1>1</md-option>
-                  <md-option value=2>2</md-option>
+                  <md-option v-for="language in languages" :key="language.id" :value=" language.id ">{{ language.name }}</md-option>
                 </md-select>
                 <span class="md-error" v-if="!$v.form.language.required">Il est obligatoire de renseigner la langue</span>
                 <span class="md-error" v-else-if="!$v.form.language.between">Il est obligatoire de sélectionner une des langues proposées.</span>
+              </md-field>
+              <md-field>
+                <label for="Restockable">Restockable</label>
+                <md-switch v-model="stockable" class="md-primary"></md-switch>
               </md-field>
             </div>
           </div>
@@ -123,6 +129,10 @@ export default {
     product:{},
     tmpProduct:{},
     idProduct:0,
+    categories: [],
+    tcgames: [],
+    languages: [],
+    stockable: true,
     form: {
       name: null,
       price: null,
@@ -205,6 +215,7 @@ export default {
       this.product.category = this.form.category
       this.product.tcg = this.form.tcg
       this.product.language = this.form.language
+      this.product.restockable = this.restockable
       const _this = this
       this.$store.dispatch('updateProduct', this.product)
           .then(() => this.$router.push('/products'))
@@ -233,7 +244,32 @@ export default {
               this.form.tcg = data.trading_card_game_id,
               this.form.category = data.category_id
               this.form.language = data.language_id
-            })
+            }),
+    api.getCategories()
+      .done((data) => {
+        this.categories = data
+      })
+      .fail(() => {
+      })
+      .always(() => {
+      }),
+    api.getTcgames()
+      .done((data) => {
+        this.tcgames = data
+      })
+      .fail(() => {
+      })
+      .always(() => {
+      }),
+    api.getLanguages()
+      .done((data) => {
+        this.languages = data
+      })
+      .fail(() => {
+      })
+      .always(() => {
+      })
+
   }
 }
 </script>
@@ -251,4 +287,17 @@ export default {
   display: inline-block;
   vertical-align: top;
 }
+
+  .md-switch {
+    display: flex;
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+
+    th {
+      text-align: left;
+    }
+  }
 </style>
