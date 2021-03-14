@@ -6,11 +6,11 @@
           <div class="md-title">Modifier un produit</div>
         </md-card-header>
         <md-card-content>
-            <img :src='"../../assets/products/product_"+tmpProduct.id+".jpg"'>
+            <img :src='"../../assets/products/product_"+tmpProduct.id+".jpg"' style="width: 20%">
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('name')">
-                <label for="name">Nom</label>
+                <label>Nom</label>
                 <md-input name="name" id="name" autocomplete="given-name" v-model="form.name" :disabled="sending" />
                 <span class="md-error" v-if="!$v.form.name.required">Il est obligatoire de renseigner un nom.</span>
               </md-field>
@@ -19,7 +19,7 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('description')">
-                <label for="description">Description</label>
+                <label>Description</label>
                 <md-textarea name="description" id="description" autocomplete="given-name" v-model="form.name" :disabled="sending" md-autogrow/>
                 <span class="md-error" v-if="!$v.form.name.required">Il est obligatoire de renseigner un nom.</span>
               </md-field>
@@ -28,7 +28,7 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('price')">
-                <label for="price">Prix</label>
+                <label>Prix</label>
                 <md-input type="number" id="price" name="price" autocomplete="price" v-model="form.price" :disabled="sending" />
                 <span class="md-error" v-if="!$v.form.price.required">Il est obligatoire de renseigner un prix.</span>
               </md-field>
@@ -37,7 +37,7 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('stock')">
-                <label for="stock">Quantité</label>
+                <label>Quantité</label>
                 <md-input type="number" id="stock" name="stock" autocomplete="stock" v-model="form.stock" :disabled="sending" />
                 <span class="md-error" v-if="!$v.form.stock.required">Il est obligatoire de renseigner la quantité à ajouter.</span>
               </md-field>
@@ -46,7 +46,7 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('minimum_stock')">
-                <label for="minimum_stock">Stock minimal</label>
+                <label>Stock minimal</label>
                 <md-input type="number" id="minimum_stock" name="minimum_stock" autocomplete="minimum_stock" v-model="form.minimum_stock" :disabled="sending" />
                 <span class="md-error" v-if="!$v.form.minimum_stock.required">Il est obligatoire de renseigner le stock minimal.</span>
               </md-field>
@@ -86,10 +86,9 @@
                 <span class="md-error" v-if="!$v.form.language.required">Il est obligatoire de renseigner la langue</span>
                 <span class="md-error" v-else-if="!$v.form.language.between">Il est obligatoire de sélectionner une des langues proposées.</span>
               </md-field>
-              <md-field>
-                <label for="Restockable">Restockable</label>
-                <md-switch v-model="stockable" class="md-primary"></md-switch>
-              </md-field>
+              <div>
+                <md-switch v-model="stockable" class="md-primary">Restockable</md-switch>
+              </div>
             </div>
           </div>
         </md-card-content>
