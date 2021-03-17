@@ -106,6 +106,7 @@ export default new Vuex.Store({
             })
         },
         addProduct({commit}, product) {
+            console.log(product)
             commit('r')
             const _token = localStorage.getItem('token')
             return axios.request({

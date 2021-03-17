@@ -12,7 +12,7 @@
       <div v-for="product in products" :key="product.id">
         <md-list-item :to="{name: 'getProduct', params:{id:product.id}}">
           <md-avatar >
-            <img :src='"../../assets/products/product_"+product.id+".jpg"'>
+            <img :src='"../../assets/products/product_"+product.id+".jpg"' @error="replaceByDefault(product.id)">
           </md-avatar>
           <div class="md-list-item-text">
             <span>{{ product.name }}</span>
@@ -46,6 +46,12 @@ export default {
         })
         .always(()=> {
         })
+  },
+  methods: {
+    replaceByDefault(e) {
+      e
+      console.log('e')
+    }
   }
 }
 

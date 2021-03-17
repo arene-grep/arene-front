@@ -17,6 +17,14 @@
           </div>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('description')">
+                <label>Description</label>
+                <md-textarea name="description" id="description" autocomplete="description" v-model="form.description" :disabled="sending" md-autogrow/>
+              </md-field>
+            </div>
+          </div>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('price')">
                 <label for="price">Prix</label>
                 <md-input type="number" id="price" name="price" autocomplete="price" v-model="form.price" :disabled="sending" />
@@ -47,11 +55,7 @@
               <md-field :class="getValidationClass('tcg')">
                 <label>Jeu de cartes</label>
                 <md-select id="tcg" name="tcg" autocomplete="tcg" v-model="form.tcg" :disabled="sending">
-                  <md-option value=1>1</md-option>
-                  <md-option value=2>2</md-option>
-                  <md-option value=3>3</md-option>
-                  <md-option value=4>4</md-option>
-                  <md-option value=5>5</md-option>
+                  <md-option v-for="tcgame in tcgames" :key="tcgame.id" :value=" tcgame.id " >{{ tcgame.name }}</md-option>
                 </md-select>
                 <span class="md-error" v-if="!$v.form.tcg.required">Il est obligatoire de renseigner le jeu de cartes auquel appartient le produit.</span>
                 <span class="md-error" v-else-if="!$v.form.tcg.between">Il est obligatoire de sélectionner un des jeu de cartes proposés.</span>
@@ -62,11 +66,8 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('category')">
                 <label>Catégorie</label>
-                <md-select id="category" name="category" autocomplete="category" v-model="form.category" :disabled="sending">
-                  <md-option value=1>1</md-option>
-                  <md-option value=2>2</md-option>
-                  <md-option value=3>3</md-option>
-                  <md-option value=4>4</md-option>
+                <md-select id="categoty" name="categoty" autocomplete="categoty" v-model="form.category" :disabled="sending">
+                            <md-option v-for="category in categories" :key="category.id" :value=" category.id ">{{ category.name }}</md-option>
                 </md-select>
                 <span class="md-error" v-if="!$v.form.category.required">Il est obligatoire de renseigner la catégorie.</span>
                 <span class="md-error" v-else-if="!$v.form.category.between">Il est obligatoire de sélectionner une des catégories proposées.</span>
@@ -78,12 +79,19 @@
               <md-field :class="getValidationClass('language')">
                 <label>Langue</label>
                 <md-select id="language" name="language" autocomplete="language" v-model="form.language" :disabled="sending">
-                  <md-option value=1>1</md-option>
-                  <md-option value=2>2</md-option>
+                  <md-option v-for="language in languages" :key="language.id" :value=" language.id ">{{ language.name }}</md-option>
                 </md-select>
                 <span class="md-error" v-if="!$v.form.language.required">Il est obligatoire de renseigner la langue.</span>
                 <span class="md-error" v-else-if="!$v.form.language.between">Il est obligatoire de sélectionner une des langues proposées.</span>
               </md-field>
+                              <div>
+                  <md-datepicker v-model="form.date" md-immediately />
+                </div>
+              <div>
+                <md-switch v-model="form.restockable" class="md-primary" ><span v-if="form.restockable">Restockable</span>
+                    <span v-else>Non restockable</span></md-switch>
+                    
+              </div>
             </div>
           </div>
         </md-card-content>
@@ -99,6 +107,7 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
+import api from "@/connection/api";
 import {
   required,
   between
@@ -109,14 +118,20 @@ export default {
   mixins: [validationMixin],
   data: () => ({
     product:{},
+    categories: [],
+    tcgames: [],
+    languages: [],
+    restockable: true,
     form: {
       name: null,
       price: null,
       stock: null,
       minimum_stock: null,
-      tcg: null,
-      category: null,
-      language:null
+      categories: [],
+      tcgames: [],
+      languages: [],
+      restockable: true,
+      description:null,
     },
     sending: false,
   }),
@@ -148,6 +163,37 @@ export default {
       }
     }
   },
+        beforeMount() {
+          this.form.restockable = true
+          this.form.date = new Date().toISOString().slice(0,10)
+          this.form.minimum_stock = 0
+    api.getCategories()
+      .done((data) => {
+        this.categories = data
+        
+      })
+      .fail(() => {
+      })
+      .always(() => {
+      }),
+    api.getTcgames()
+      .done((data) => {
+        this.tcgames = data
+      })
+      .fail(() => {
+      })
+      .always(() => {
+      }),
+    api.getLanguages()
+      .done((data) => {
+        this.languages = data
+      })
+      .fail(() => {
+      })
+      .always(() => {
+      })
+
+  },
   methods: {
     getValidationClass (fieldName) {
       const field = this.$v.form[fieldName]
@@ -168,6 +214,9 @@ export default {
       this.form.category=null
       this.form.tcg=null
       this.form.language=null
+      this.form.restockable=true
+      this.form.date= new Date().toISOString().slice(0,10)
+      this.form.description = null
     },
     saveProduct () {
       this.sending = true
@@ -175,18 +224,20 @@ export default {
       this.product.price = this.form.price
       this.product.stock = this.form.stock
       this.product.minimum_stock = this.form.minimum_stock
-      this.product.category = this.form.category
-      this.product.tcg = this.form.tcg
-      this.product.language = this.form.language
-      alert("Pas encore implémenté")
-
-      // const _this = this
-      // this.$store.dispatch('addProduct', this.product)
-      // .then(() => this.$router.push('/products'))
-      //     .catch(function (error) {
-      //       console.log(error)
-      //       _this.sending = false
-      //     })
+      this.product.category_id = this.form.category
+      this.product.trading_card_game_id = this.form.tcg
+      this.product.language_id = this.form.language
+      this.product.description = this.form.description
+      if(this.form.date == null ) { this.form.date = new Date().toISOString().slice(0,10) }
+      this.product.release_date = this.form.date
+      this.product.is_orderable = this.form.restockable
+       const _this = this
+       this.$store.dispatch('addProduct', this.product)
+       .then(() => this.$router.push('/products'))
+           .catch(function (error) {
+             console.log(error)
+             _this.sending = false
+           })
     },
     validateProduct () {
       this.$v.$touch()
@@ -211,4 +262,17 @@ export default {
   display: inline-block;
   vertical-align: top;
 }
+
+  .md-switch {
+    display: flex;
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+
+    th {
+      text-align: left;
+    }
+  }
 </style>

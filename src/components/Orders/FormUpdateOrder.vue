@@ -35,16 +35,19 @@
           </div>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('status')">
-                <label>Statut</label>
-                <md-select v-model="form.status" name="movie" id="movie">
-                  <md-option value="commande créé">Commande créée</md-option>
+                <!--<label>Statut</label>-->
+                <!--<md-select v-model="form.status" name="movie" id="movie">-->
+                  <div class="md-layout md-alignment-left">
+                      <md-radio v-model="form.status" value="commande créé">Commande créée</md-radio>
+                      <md-radio v-model="form.status" value="commande prête">Commande prête</md-radio>
+                      <md-radio v-model="form.status" value="commande terminée">Commande terminée</md-radio>
+                      </div>
+                 <!-- <md-option value="commande créé">Commande créée</md-option>
                   <md-option value="commande prête">Commande prête</md-option>
                   <md-option value="commande terminée">Commande terminée</md-option>
-                </md-select>
+                </md-select>-->
 <!--                <md-input name="status" id="status" autocomplete="given-name" v-model="form.status" :disabled="true" />-->
                 <span class="md-error" v-if="!$v.form.status.required">Il est obligatoire de renseigner un nom.</span>
-              </md-field>
                 <div class="md-layout md-alignment-left">
                   <md-switch class="md-primary" name="is_paid" id="is_paid" v-model="form.is_paid">
                     <span v-if="form.is_paid">Commande payée</span>

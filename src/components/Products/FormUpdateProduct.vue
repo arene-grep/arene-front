@@ -20,8 +20,7 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('description')">
                 <label>Description</label>
-                <md-textarea name="description" id="description" autocomplete="given-name" v-model="form.name" :disabled="sending" md-autogrow/>
-                <span class="md-error" v-if="!$v.form.name.required">Il est obligatoire de renseigner un nom.</span>
+                <md-textarea name="description" id="description" autocomplete="description" v-model="form.description" :disabled="sending" md-autogrow/>
               </md-field>
             </div>
           </div>
@@ -57,7 +56,7 @@
               <md-field :class="getValidationClass('tcg')">
                 <label>Jeu de cartes</label>
                 <md-select id="tcg" name="tcg" autocomplete="tcg" v-model="form.tcg" :disabled="sending">
-                  <md-option v-for="tcgame in tcgames" :key="tcgame.id" :value=" tcgame.id ">{{ tcgame.name }}</md-option>
+                  <md-option v-for="tcgame in tcgames" :key="tcgame.id" :value=" tcgame.id " >{{ tcgame.name }}</md-option>
                 </md-select>
                 <span class="md-error" v-if="!$v.form.tcg.required">Il est obligatoire de renseigner le jeu de cartes auquel appartient le produit.</span>
                 <span class="md-error" v-else-if="!$v.form.tcg.between">Il est obligatoire de sélectionner un des jeu de cartes proposés.</span>
@@ -68,9 +67,9 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('category')">
                 <label>Catégorie</label>
-                <md-select id="categoty" name="categoty" autocomplete="categoty" v-model="form.category" :disabled="sending">
+                <md-select id="category" name="category" autocomplete="category" v-model="form.category" :disabled="sending">
                             <md-option v-for="category in categories" :key="category.id" :value=" category.id ">{{ category.name }}</md-option>
-                            </md-select>
+                </md-select>
                 <span class="md-error" v-if="!$v.form.category.required">Il est obligatoire de renseigner la catégorie.</span>
                 <span class="md-error" v-else-if="!$v.form.category.between">Il est obligatoire de sélectionner une des catégories proposées.</span>
               </md-field>
@@ -86,8 +85,13 @@
                 <span class="md-error" v-if="!$v.form.language.required">Il est obligatoire de renseigner la langue</span>
                 <span class="md-error" v-else-if="!$v.form.language.between">Il est obligatoire de sélectionner une des langues proposées.</span>
               </md-field>
+                <div>
+                  <md-datepicker v-model="form.date" md-immediately />
+                </div>
               <div>
-                <md-switch v-model="stockable" class="md-primary">Restockable</md-switch>
+                <md-switch v-model="form.restockable" class="md-primary" ><span v-if="form.restockable">Restockable</span>
+                    <span v-else>Non restockable</span></md-switch>
+                    
               </div>
             </div>
           </div>
@@ -132,6 +136,7 @@ export default {
     tcgames: [],
     languages: [],
     stockable: true,
+
     form: {
       name: null,
       price: null,
@@ -139,7 +144,9 @@ export default {
       minimum_stock: null,
       tcg: null,
       category: null,
-      language:null
+      language:null,
+      description:null,
+      restockable:null
     },
     sending: false,
   }),
@@ -203,18 +210,24 @@ export default {
       this.form.tcg = this.tmpProduct.trading_card_game_id
       this.form.category = this.tmpProduct.category_id
       this.form.language = this.tmpProduct.language_id
+      this.form.description = this.tmpProduct.description
+      this.form.date = this.tmpProduct.release_date
+      this.form.restockable = this.tmpProduct.is_orderable
     },
     saveProduct () {
+      console.log(this.form.tcg)
       this.sending = true
       this.product.id = this.idProduct
       this.product.name = this.form.name
       this.product.price = this.form.price
       this.product.stock = this.form.stock
       this.product.minimum_stock = this.form.minimum_stock
-      this.product.category = this.form.category
-      this.product.tcg = this.form.tcg
-      this.product.language = this.form.language
-      this.product.restockable = this.restockable
+      this.product.category_id = this.form.category
+      this.product.trading_card_game_id = this.form.tcg
+      this.product.language_id = this.form.language
+      this.product.description = this.form.description
+      this.product.is_orderable = this.form.restockable
+      this.product.release_date = this.form.date
       const _this = this
       this.$store.dispatch('updateProduct', this.product)
           .then(() => this.$router.push('/products'))
@@ -229,7 +242,8 @@ export default {
       if (!this.$v.$invalid) {
         this.saveProduct()
       }
-    }
+    },
+
   },
   beforeMount() {
     this.idProduct = this.$route.params.id,
@@ -243,6 +257,9 @@ export default {
               this.form.tcg = data.trading_card_game_id,
               this.form.category = data.category_id
               this.form.language = data.language_id
+              this.form.description = data.description
+              this.form.restockable = data.is_orderable
+              this.form.date = data.release_date
             }),
     api.getCategories()
       .done((data) => {
