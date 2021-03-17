@@ -110,7 +110,8 @@ export default {
       const data = {
         name: this.form.name,
         email: this.form.email,
-        password: this.form.password
+        password: this.form.password,
+        nickname: "nobody"
       }
       this.$store.dispatch('register', data)
         .then(function () {

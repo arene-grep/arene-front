@@ -232,7 +232,23 @@ export default new Vuex.Store({
             })
             const dataPromise = promise.then((response) => response.data)
             return dataPromise
-        }
+        },
+        deleteOrder({commit}, orders) {
+            commit('r')
+            const _token = localStorage.getItem('token')
+            return axios.request({
+                url: APIENDPOINT + "orders/" + orders.id,
+                method: "DELETE",
+                headers: {
+                    Authorization: 'Bearer ' + _token,
+                    Accept: 'application/json'
+                },
+            }).then((response) => {
+                console.log(response)
+            }).catch((error) => {
+                console.log(error)
+            })
+        },
     },
     modules: {}
 })

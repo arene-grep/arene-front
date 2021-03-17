@@ -8,8 +8,8 @@
         <md-card-content>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('name')">
-                <label>Id</label>
+              <md-field :class="getValidationClass('id')">
+                <label>Numéro de commande</label>
                 <md-input name="id" id="id" autocomplete="given-name" v-model="form.id" :disabled="true"/>
                 <span class="md-error" v-if="!$v.form.id.required">Il est obligatoire de renseigner un nom.</span>
               </md-field>
@@ -19,7 +19,7 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('date')">
                 <label>Date de la commande</label>
-                <VueCtkDateTimePicker label="Date" format="YYYY-MM-DD HH:mm" id="date" name="date" autocomplete="date" v-model="form.date" :disabled="true" />
+                <md-input label="Date" format="YYYY-MM-DD HH:mm" id="date" name="date" autocomplete="date" v-model="form.date" :disabled="true" />
                 <span class="md-error" v-if="!$v.form.date.required">Il est obligatoire de renseigner la date prévue.</span>
               </md-field>
             </div>
@@ -28,9 +28,29 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('user_id')">
                 <label>ID de l'user</label>
-                <md-input name="id" id="user_id" autocomplete="given-name" v-model="form.user_id" :disabled="true" />
+                <md-input name="user_id" id="user_id" autocomplete="given-name" v-model="form.user_id" :disabled="true" />
                 <span class="md-error" v-if="!$v.form.user_id.required">Il est obligatoire de renseigner un nom.</span>
               </md-field>
+            </div>
+          </div>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('status')">
+                <label>Statut</label>
+                <md-select v-model="form.status" name="movie" id="movie">
+                  <md-option value="commande créé">Commande créée</md-option>
+                  <md-option value="commande prête">Commande prête</md-option>
+                  <md-option value="commande terminée">Commande terminée</md-option>
+                </md-select>
+<!--                <md-input name="status" id="status" autocomplete="given-name" v-model="form.status" :disabled="true" />-->
+                <span class="md-error" v-if="!$v.form.status.required">Il est obligatoire de renseigner un nom.</span>
+              </md-field>
+                <div class="md-layout md-alignment-left">
+                  <md-switch class="md-primary" name="is_paid" id="is_paid" v-model="form.is_paid">
+                    <span v-if="form.is_paid">Commande payée</span>
+                    <span v-else>Commande non payée</span>
+                  </md-switch>
+                </div>
             </div>
           </div>
         </md-card-content>
@@ -71,6 +91,8 @@ export default {
       id: null,
       date: null,
       user_id: null,
+      is_paid: null,
+      status: ''
     },
     sending: false,
   }),
@@ -85,6 +107,12 @@ export default {
       user_id: {
         required,
       },
+      is_paid : {
+        required
+      },
+      status: {
+        required
+      }
     }
   },
   methods: {
@@ -101,28 +129,27 @@ export default {
       }
     },
     resetOrder () {
-      this.form.name = this.tmpOrder.name
-      this.form.tcg = this.tmpOrder.trading_card_game_id
       this.form.date = this.tmpOrder.date
+      this.form.status = this.tmpOrder.status
+      this.form.is_paid = this.tmpOrder.is_paid
+      this.form.status = this.tmpOrder.status
     },
     deleteOrder () {
       this.order.id = this.idOrder
-      alert("pas encore implémenté")
       this.sending = false
-      // const _this = this
-      // this.$store.dispatch('deleteEvent', this.order)
-      //     .then(() => this.$router.push('/events'))
-      //     .catch(function (error) {
-      //       console.log(error)
-      //       _this.sending = false
-      //     })
+      const _this = this
+      this.$store.dispatch('deleteOrder', this.order)
+          .then(() => this.$router.push('/orders'))
+          .catch(function (error) {
+            console.log(error)
+            _this.sending = false
+          })
     },
-    saveOrder () {
+    updateOrder () {
       this.sending = true
-      this.order.name = this.form.name
-      this.order.tcg = this.form.tcg
-      this.order.date = this.form.date
-      this.order.id = this.idOrder
+      this.order.is_paid = this.form.is_paid
+      this.order.status = this.form.status
+      console.log(this.order)
       alert("pas encore implémenté")
       this.sending = false
       // const _this = this
@@ -136,19 +163,21 @@ export default {
     validateOrder () {
       this.$v.$touch()
       if (!this.$v.$invalid) {
-        this.saveOrder()
+        this.updateOrder()
       }
     }
   },
   beforeMount() {
-    this.idOrder = this.$route.params.id,
+    this.idOrder = this.$route.params.id
         this.$store.dispatch('getOrder', this.idOrder)
         .then(data => {
-          this.order = data
+          this.order= data
           this.tmpOrder = data
-          this.form.id = data.id;
+          this.form.id = data.id
           this.form.date = data.date
           this.form.user_id = data.user_id
+          this.form.is_paid = data.is_paid
+          this.form.status = data.status
         })
         .catch(err => console.log(err))
   }
