@@ -111,7 +111,7 @@ export default {
         name: this.form.name,
         email: this.form.email,
         password: this.form.password,
-        nickname: "nobody"
+        nickname: this.form.name
       }
       this.$store.dispatch('register', data)
         .then(function () {
