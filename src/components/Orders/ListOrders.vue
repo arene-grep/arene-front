@@ -35,7 +35,12 @@
       <div v-for="order in orders" :key="order.id">
         <md-list-item v-if="checkStatus(order.status)" :to="{name: 'getOrder', params:{id:order.id}}">
           <md-avatar class="md-large">
-            <img src="../../assets/logo-arene.png">
+<span v-if="checkNew(order.status)" class="material-icons">
+fiber_new
+</span>
+<span v-else class="material-icons">
+local_shipping
+</span>
           </md-avatar>
           <div class="md-list-item-text">
             <span>Numéro de commande : {{ order.id }}</span>
@@ -52,7 +57,9 @@
       <div v-for="order in orders" :key="order.id">
         <md-list-item v-if="checkStatus(order.status)==false" :to="{name: 'getOrder', params:{id:order.id}}">
           <md-avatar  class="md-large">
-            <img src="../../assets/logo-arene.png">
+            <span class="material-icons">
+done_outline
+</span>
           </md-avatar>
           <div class="md-list-item-text">
             <span>Numéro de commande : {{ order.id }}</span>
@@ -87,7 +94,9 @@ export default {
     checkStatus (status) {
       if (status == 'commande terminée') { return false } else { return true }
     },
-
+    checkNew (status) {
+      if (status == 'commande créée') { return true } else { return false }
+    },
         searchOrder () {
       return true
     },
