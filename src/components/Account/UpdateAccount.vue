@@ -38,8 +38,6 @@
             <md-field :class="getValidationClass('nickname')">
               <label>Nickname</label>
               <md-input name="nickname" id="nickname" v-model="form.nickname" :disabled="sending" />
-              <span class="md-error" v-if="!$v.form.nickname.required">The nickname is required</span>
-              <span class="md-error" v-else-if="!$v.form.nickname.minlength">Invalid nickname</span>
             </md-field>
           </div>
         </md-card-content>
