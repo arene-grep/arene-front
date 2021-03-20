@@ -250,6 +250,23 @@ export default new Vuex.Store({
                 console.log(error)
             })
         },
+        updateOrder({commit}, order) {
+            commit('r')
+            const _token = localStorage.getItem('token')
+            return axios.request({
+                url: APIENDPOINT + "orders/" + order.id,
+                method: "PUT",
+                headers: {
+                    Authorization: 'Bearer ' + _token,
+                    Accept: 'application/json'
+                },
+                data: order
+            }).then((response) => {
+                console.log(response)
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
     },
     modules: {}
 })

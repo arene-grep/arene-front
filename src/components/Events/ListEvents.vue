@@ -12,7 +12,7 @@
     <md-list class="md-triple-line">
       <div v-for="event in events" :key="event.id">
         <md-list-item :to="{name: 'getEvent', params:{id:event.id}}">
-          <md-avatar >
+          <md-avatar class="md-large">
             <img src="../../assets/logo-arene.png">
           </md-avatar>
 

@@ -9,7 +9,7 @@
         <md-card-content>
             <div class="md-layout-item">
               <md-field :class="getValidationClass('username')">
-                <label>Username</label>
+                <label>Email</label>
                 <md-input name="username" id="username" v-model="form.username" :disabled="sending" />
                 <span class="md-error" v-if="!$v.form.username.required">The username is required</span>
                 <span class="md-error" v-else-if="!$v.form.username.minlength">Invalid username</span>

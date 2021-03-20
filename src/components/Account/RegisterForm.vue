@@ -33,6 +33,13 @@
                 <span class="md-error" v-else-if="!$v.form.email.minlength">Invalid email</span>
               </md-field>
           </div>
+
+          <div class="md-layout">
+            <md-field>
+              <label>Nickname</label>
+              <md-input name="nickname" id="nickname" v-model="form.nickname" :disabled="sending" />
+            </md-field>
+          </div>
         </md-card-content>
 
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
@@ -67,7 +74,8 @@ export default {
     form: {
       name: null,
       password: null,
-      email: null
+      email: null,
+      nickname: null
     },
     sending: false,
     lastUser: null
@@ -103,6 +111,7 @@ export default {
       this.form.name = null
       this.form.password = null
       this.form.email = null
+      this.form.nickname = null
     },
     saveUser () {
       const _this = this
@@ -111,7 +120,7 @@ export default {
         name: this.form.name,
         email: this.form.email,
         password: this.form.password,
-        nickname: this.form.name
+        nickname: this.form.nickname
       }
       this.$store.dispatch('register', data)
         .then(function () {

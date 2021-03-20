@@ -44,16 +44,23 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
         <div>
           <md-dialog-confirm
-              :md-active.sync="active"
+              :md-active.sync="activeDelete"
               md-title="Suppression de l'évènement"
-              md-content="Attention, la suppression de l'évènement sera définitif. <br> Êtes-vous sûr de vouloir continuer?"
+              md-content="Attention, la suppression de l'évènement sera définitive. <br> Êtes-vous sûr de vouloir continuer?"
               md-confirm-text="Supprimer"
               md-cancel-text="Annuler"
-              @md-confirm="onConfirm" />
+              @md-confirm="onConfirmDelete" />
+          <md-dialog-confirm
+              :md-active.sync="activeUpdate"
+              md-title="Modifier l'évènement"
+              md-content="Attention, la modification de l'évènement sera définitive. <br> Êtes-vous sûr de vouloir continuer?"
+              md-confirm-text="Modifier"
+              md-cancel-text="Annuler"
+              @md-confirm="saveEvent" />
           <md-card-actions>
             <md-button class="md-dense md-raised md-primary" type="submit" :disabled="sending">Modifier</md-button>
             <md-button class="md-dense md-raised md-primary" :disabled="sending" @click="resetEvent()">Réinitialiser</md-button>
-            <md-button class="md-raised md-accent" :disabled="sending" @click="active = true">Supprimer</md-button>
+            <md-button class="md-raised md-accent" :disabled="sending" @click="activeDelete = true">Supprimer</md-button>
           </md-card-actions>
         </div>
       </md-card>
@@ -72,7 +79,8 @@ export default {
   name: "FormUpdateEvent",
   mixins: [validationMixin],
   data: () => ({
-    active:null,
+    activeDelete:null,
+    activeUpdate:null,
     event:{},
     tmpEvent:{},
     idEvent:null,
@@ -98,7 +106,7 @@ export default {
     }
   },
   methods: {
-    onConfirm () {
+    onConfirmDelete () {
       this.sending=true,
           this.deleteEvent()
     },
@@ -143,7 +151,7 @@ export default {
     validateEvent () {
       this.$v.$touch()
       if (!this.$v.$invalid) {
-        this.saveEvent()
+        this.activeUpdate = true
       }
     }
   },

@@ -34,7 +34,7 @@
       <label>Commandes ouvertes</label>
       <div v-for="order in orders" :key="order.id">
         <md-list-item v-if="checkStatus(order.status)" :to="{name: 'getOrder', params:{id:order.id}}">
-          <md-avatar >
+          <md-avatar class="md-large">
             <img src="../../assets/logo-arene.png">
           </md-avatar>
           <div class="md-list-item-text">
@@ -51,7 +51,7 @@
       <label>Commandes fermées</label>
       <div v-for="order in orders" :key="order.id">
         <md-list-item v-if="checkStatus(order.status)==false" :to="{name: 'getOrder', params:{id:order.id}}">
-          <md-avatar >
+          <md-avatar  class="md-large">
             <img src="../../assets/logo-arene.png">
           </md-avatar>
           <div class="md-list-item-text">

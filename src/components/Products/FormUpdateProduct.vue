@@ -91,7 +91,7 @@
               <div>
                 <md-switch v-model="form.restockable" class="md-primary" ><span v-if="form.restockable">Restockable</span>
                     <span v-else>Non restockable</span></md-switch>
-                    
+
               </div>
             </div>
           </div>
@@ -99,16 +99,23 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
         <div>
           <md-dialog-confirm
-              :md-active.sync="active"
+              :md-active.sync="activeDelete"
               md-title="Suppression du produit"
-              md-content="Attention, la suppression du produit sera définitif. <br> Êtes-vous sûr de vouloir continuer?"
+              md-content="Attention, la suppression du produit sera définitive. <br> Êtes-vous sûr de vouloir continuer?"
               md-confirm-text="Supprimer"
               md-cancel-text="Annuler"
-              @md-confirm="onConfirm" />
+              @md-confirm="onConfirmDelete" />
+          <md-dialog-confirm
+              :md-active.sync="activeUpdate"
+              md-title="Modifier le produit"
+              md-content="Attention, la modification du produit sera définitive. <br> Êtes-vous sûr de vouloir continuer?"
+              md-confirm-text="Modifier"
+              md-cancel-text="Annuler"
+              @md-confirm="saveProduct" />
           <md-card-actions>
             <md-button class="md-dense md-raised md-primary" type="submit" :disabled="sending">Modifier</md-button>
             <md-button class="md-dense md-raised md-primary" :disabled="sending" @click="resetProduct()">Réinitialiser</md-button>
-            <md-button class="md-raised md-accent" :disabled="sending" @click="active = true">Supprimer</md-button>
+            <md-button class="md-raised md-accent" :disabled="sending" @click="activeDelete = true">Supprimer</md-button>
           </md-card-actions>
         </div>
       </md-card>
@@ -128,7 +135,8 @@ export default {
   name: 'FormValidation',
   mixins: [validationMixin],
   data: () => ({
-    active:false,
+    activeDelete:null,
+    activeUpdate:null,
     product:{},
     tmpProduct:{},
     idProduct:0,
@@ -179,7 +187,7 @@ export default {
     }
   },
   methods: {
-    onConfirm () {
+    onConfirmDelete () {
       this.sending=true,
       this.deleteProduct()
     },
@@ -240,7 +248,7 @@ export default {
     validateProduct () {
       this.$v.$touch()
       if (!this.$v.$invalid) {
-        this.saveProduct()
+        this.activeUpdate = true
       }
     },
 

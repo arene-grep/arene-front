@@ -11,7 +11,6 @@
               <md-field :class="getValidationClass('id')">
                 <label>Numéro de commande</label>
                 <md-input name="id" id="id" autocomplete="given-name" v-model="form.id" :disabled="true"/>
-                <span class="md-error" v-if="!$v.form.id.required">Il est obligatoire de renseigner un nom.</span>
               </md-field>
             </div>
           </div>
@@ -20,7 +19,6 @@
               <md-field :class="getValidationClass('date')">
                 <label>Date de la commande</label>
                 <md-input label="Date" format="YYYY-MM-DD HH:mm" id="date" name="date" autocomplete="date" v-model="form.date" :disabled="true" />
-                <span class="md-error" v-if="!$v.form.date.required">Il est obligatoire de renseigner la date prévue.</span>
               </md-field>
             </div>
           </div>
@@ -29,25 +27,16 @@
               <md-field :class="getValidationClass('user_id')">
                 <label>ID de l'user</label>
                 <md-input name="user_id" id="user_id" autocomplete="given-name" v-model="form.user_id" :disabled="true" />
-                <span class="md-error" v-if="!$v.form.user_id.required">Il est obligatoire de renseigner un nom.</span>
               </md-field>
             </div>
           </div>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-                <!--<label>Statut</label>-->
-                <!--<md-select v-model="form.status" name="movie" id="movie">-->
                   <div class="md-layout md-alignment-left">
-                      <md-radio v-model="form.status" value="commande créé">Commande créée</md-radio>
+                      <md-radio v-model="form.status" value="commande créée">Commande créée</md-radio>
                       <md-radio v-model="form.status" value="commande prête">Commande prête</md-radio>
                       <md-radio v-model="form.status" value="commande terminée">Commande terminée</md-radio>
                       </div>
-                 <!-- <md-option value="commande créé">Commande créée</md-option>
-                  <md-option value="commande prête">Commande prête</md-option>
-                  <md-option value="commande terminée">Commande terminée</md-option>
-                </md-select>-->
-<!--                <md-input name="status" id="status" autocomplete="given-name" v-model="form.status" :disabled="true" />-->
-                <span class="md-error" v-if="!$v.form.status.required">Il est obligatoire de renseigner un nom.</span>
                 <div class="md-layout md-alignment-left">
                   <md-switch class="md-primary" name="is_paid" id="is_paid" v-model="form.is_paid">
                     <span v-if="form.is_paid">Commande payée</span>
@@ -60,16 +49,23 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
         <div>
           <md-dialog-confirm
-              :md-active.sync="active"
+              :md-active.sync="activeDelete"
               md-title="Suppression de l'évènement"
-              md-content="Attention, la suppression de l'évènement sera définitif. <br> Êtes-vous sûr de vouloir continuer?"
+              md-content="Attention, la suppression de l'évènement sera définitive. <br> Êtes-vous sûr de vouloir continuer?"
               md-confirm-text="Supprimer"
               md-cancel-text="Annuler"
-              @md-confirm="onConfirm" />
+              @md-confirm="onConfirmDelete" />
+          <md-dialog-confirm
+              :md-active.sync="activeUpdate"
+              md-title="Modifier la commande"
+              md-content="Attention, la modification de la commande sera définitive. <br> Êtes-vous sûr de vouloir continuer?"
+              md-confirm-text="Modifier"
+              md-cancel-text="Annuler"
+              @md-confirm="updateOrder" />
           <md-card-actions>
             <md-button class="md-dense md-raised md-primary" type="submit" :disabled="sending">Modifier</md-button>
             <md-button class="md-dense md-raised md-primary" :disabled="sending" @click="resetOrder()">Réinitialiser</md-button>
-            <md-button class="md-raised md-accent" :disabled="sending" @click="active = true">Supprimer</md-button>
+            <md-button class="md-raised md-accent" :disabled="sending" @click="activeDelete = true">Supprimer</md-button>
           </md-card-actions>
         </div>
       </md-card>
@@ -86,7 +82,8 @@ export default {
   name: "FormUpdateEvent",
   mixins: [validationMixin],
   data: () => ({
-    active:null,
+    activeDelete:null,
+    activeUpdate:null,
     order:{},
     tmpOrder:{},
     idOrder:null,
@@ -119,7 +116,7 @@ export default {
     }
   },
   methods: {
-    onConfirm () {
+    onConfirmDelete () {
       this.sending=true,
           this.deleteOrder()
     },
@@ -152,21 +149,18 @@ export default {
       this.sending = true
       this.order.is_paid = this.form.is_paid
       this.order.status = this.form.status
-      console.log(this.order)
-      alert("pas encore implémenté")
-      this.sending = false
-      // const _this = this
-      // this.$store.dispatch('updateEvent', this.order)
-      //     .then(() => this.$router.push('/events'))
-      //     .catch(function (error) {
-      //       console.log(error)
-      //       _this.sending = false
-      //     })
+      const _this = this
+      this.$store.dispatch('updateOrder', this.order)
+          .then(() => this.$router.push('/orders'))
+          .catch(function (error) {
+            console.log(error)
+            _this.sending = false
+          })
     },
     validateOrder () {
       this.$v.$touch()
       if (!this.$v.$invalid) {
-        this.updateOrder()
+        this.activeUpdate = true
       }
     }
   },
