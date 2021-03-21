@@ -32,6 +32,14 @@
           </div>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('total_price')">
+                <label>Prix total CHF</label>
+                <md-input name="total_price" id="total_price" autocomplete="given-name" v-model="form.total_price" :disabled="true" />
+              </md-field>
+            </div>
+          </div>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
                   <div class="md-layout md-alignment-left">
                       <md-radio v-model="form.status" value="commande créée">Commande créée</md-radio>
                       <md-radio v-model="form.status" value="commande prête">Commande prête</md-radio>
@@ -62,6 +70,22 @@
               md-confirm-text="Modifier"
               md-cancel-text="Annuler"
               @md-confirm="updateOrder" />
+          <md-card-expand>
+            <md-card-actions md-alignment="space-between">
+              <div>
+                <md-card-expand-trigger>
+                  <md-button class="md-primary">Contenu de la commande</md-button>
+                </md-card-expand-trigger>
+              </div>
+            </md-card-actions>
+            <md-card-expand-content>
+              <md-card-content v-for="item in productsOrder" :key="item.id">
+                Produit : {{ item.name }}
+                <br>
+                Prix unitaire {{ item.price }} CHF
+              </md-card-content>
+            </md-card-expand-content>
+          </md-card-expand>
           <md-card-actions>
             <md-button class="md-dense md-raised md-primary" type="submit" :disabled="sending">Modifier</md-button>
             <md-button class="md-dense md-raised md-primary" :disabled="sending" @click="resetOrder()">Réinitialiser</md-button>
@@ -75,6 +99,8 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
+import api from '../../connection/api.js'
+
 import {
   required
 } from 'vuelidate/lib/validators'
@@ -82,6 +108,7 @@ export default {
   name: "FormUpdateEvent",
   mixins: [validationMixin],
   data: () => ({
+    productsOrder: [],
     activeDelete:null,
     activeUpdate:null,
     order:{},
@@ -92,7 +119,8 @@ export default {
       date: null,
       user_id: null,
       is_paid: null,
-      status: ''
+      status: '',
+      total_price: 0
     },
     sending: false,
   }),
@@ -168,13 +196,33 @@ export default {
     this.idOrder = this.$route.params.id
         this.$store.dispatch('getOrder', this.idOrder)
         .then(data => {
-          this.order= data
+          this.order = data
           this.tmpOrder = data
           this.form.id = data.id
           this.form.date = data.date
           this.form.user_id = data.user_id
           this.form.is_paid = data.is_paid
           this.form.status = data.status
+          // const tmpBuys = data.buys
+          // solution brute en attendant
+          let tmpBuy1 = new Object()
+          tmpBuy1.id = 1
+          tmpBuy1.quantity = 12
+          tmpBuy1.order_id = 1
+          tmpBuy1.product_id = 1
+          let tmpBuy2 = new Object()
+          tmpBuy2.id = 2
+          tmpBuy2.quantity = 4
+          tmpBuy2.order_id = 1
+          tmpBuy2.product_id = 2
+          const tmpBuys = [tmpBuy1, tmpBuy2]
+          for (let i = 0; i < tmpBuys.length; i++) {
+            api.getProduct(tmpBuys[i].product_id).done((data)=> {
+              this.productsOrder.push(data)
+              this.form.total_price = this.form.total_price + data.price * tmpBuys[i].quantity
+            })
+            console.log(this.form.total_price)
+          }
         })
         .catch(err => console.log(err))
   }

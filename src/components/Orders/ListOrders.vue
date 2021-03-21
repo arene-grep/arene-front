@@ -1,7 +1,7 @@
 <template>
   <div>
-            <div class="md-layout">
-              <div class="md-layout-item">
+    <div class="md-layout">
+      <div class="md-layout-item">
       </div>
       <div class="md-layout-item">
         <md-field md-clearable>
@@ -31,44 +31,44 @@
     <md-list class="md-triple-line">
       <div>
         <md-content class="md-primary">
-      <label>Commandes ouvertes</label>
-      <div v-for="order in orders" :key="order.id">
-        <md-list-item v-if="checkStatus(order.status)" :to="{name: 'getOrder', params:{id:order.id}}">
-          <md-avatar class="md-large">
+          <label>Commandes ouvertes</label>
+          <div v-for="order in orders" :key="order.id">
+            <md-list-item v-if="checkStatus(order.status)" :to="{name: 'getOrder', params:{id:order.id}}">
+              <md-avatar class="md-large">
 <span v-if="checkNew(order.status)" class="material-icons">
 fiber_new
 </span>
-<span v-else class="material-icons">
+                <span v-else class="material-icons">
 local_shipping
 </span>
-          </md-avatar>
-          <div class="md-list-item-text">
-            <span>Numéro de commande : {{ order.id }}</span>
-            <span>Date : {{ order.date }}</span>
+              </md-avatar>
+              <div class="md-list-item-text">
+                <span>Numéro de commande : {{ order.id }}</span>
+                <span>Date : {{ order.date }}</span>
+              </div>
+            </md-list-item>
+            <md-divider class="md-inset"></md-divider>
           </div>
-        </md-list-item>
-        <md-divider class="md-inset"></md-divider>
+        </md-content>
       </div>
-      </md-content>
-            </div>
       <div>
         <md-content class="md-accent">
-      <label>Commandes fermées</label>
-      <div v-for="order in orders" :key="order.id">
-        <md-list-item v-if="checkStatus(order.status)==false" :to="{name: 'getOrder', params:{id:order.id}}">
-          <md-avatar  class="md-large">
+          <label>Commandes fermées</label>
+          <div v-for="order in orders" :key="order.id">
+            <md-list-item v-if="checkStatus(order.status)==false" :to="{name: 'getOrder', params:{id:order.id}}">
+              <md-avatar class="md-large">
             <span class="material-icons">
 done_outline
 </span>
-          </md-avatar>
-          <div class="md-list-item-text">
-            <span>Numéro de commande : {{ order.id }}</span>
-            <span>Date : {{ order.date }}</span>
+              </md-avatar>
+              <div class="md-list-item-text">
+                <span>Numéro de commande : {{ order.id }}</span>
+                <span>Date : {{ order.date }}</span>
+              </div>
+            </md-list-item>
+            <md-divider class="md-inset"></md-divider>
           </div>
-        </md-list-item>
-        <md-divider class="md-inset"></md-divider>
-      </div>
-      </md-content>
+        </md-content>
       </div>
     </md-list>
   </div>
@@ -80,27 +80,36 @@ export default {
   name: 'TripleLine',
   data: () => {
     return {
-      orders:[]
+      orders: []
     }
   },
   beforeMount() {
     this.$store.dispatch('getOrders')
         .then(data => {
           this.orders = data
+          console.log(data)
         })
         .catch(err => console.log(err))
   },
-    methods: {
-    checkStatus (status) {
-      if (status == 'commande terminée') { return false } else { return true }
+  methods: {
+    checkStatus(status) {
+      if (status == 'commande terminée') {
+        return false
+      } else {
+        return true
+      }
     },
-    checkNew (status) {
-      if (status == 'commande créée') { return true } else { return false }
+    checkNew(status) {
+      if (status == 'commande créée') {
+        return true
+      } else {
+        return false
+      }
     },
-        searchOrder () {
+    searchOrder() {
       return true
     },
-    }
+  }
 }
 
 

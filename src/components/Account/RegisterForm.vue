@@ -61,7 +61,8 @@ import { validationMixin } from 'vuelidate'
 
 import {
   required,
-  minLength
+  minLength,
+  email
 } from 'vuelidate/lib/validators'
 import router from '@/router'
 
@@ -91,6 +92,7 @@ export default {
         minLength: minLength(3)
       },
       email: {
+        email,
         required,
         minLength: minLength(3)
       }
