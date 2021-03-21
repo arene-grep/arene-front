@@ -17,8 +17,10 @@ if (token) {
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
-
 Vue.config.productionTip = false
+
+// import { VueWindowSizePlugin } from 'vue-window-size/option-api';
+// Vue.use(VueWindowSizePlugin)
 
 new Vue({
   router,

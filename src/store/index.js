@@ -16,13 +16,21 @@ export default new Vuex.Store({
         status: '',
         token: localStorage.getItem('token'),
         user: {},
+        mobileBreakPoints: null
     },
     getters: {
         isLoggedIn: state => !!state.token,
         authStatus: state => state.status,
         myUser: state => state.user,
+        isMobile: state => state.mobileBreakPoints
     },
     mutations: {
+        isMobileView(state) {
+            state.mobileBreakPoints = true
+        },
+        isNotMobileView(state) {
+            state.mobileBreakPoints = false
+        },
         auth_request(state) {
             state.status = 'loading'
         },
