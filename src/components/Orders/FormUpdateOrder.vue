@@ -203,19 +203,19 @@ export default {
           this.form.user_id = data.user_id
           this.form.is_paid = data.is_paid
           this.form.status = data.status
-          // const tmpBuys = data.buys
+          const tmpBuys = data.buys
           // solution brute en attendant
-          let tmpBuy1 = new Object()
-          tmpBuy1.id = 1
-          tmpBuy1.quantity = 12
-          tmpBuy1.order_id = 1
-          tmpBuy1.product_id = 1
-          let tmpBuy2 = new Object()
-          tmpBuy2.id = 2
-          tmpBuy2.quantity = 4
-          tmpBuy2.order_id = 1
-          tmpBuy2.product_id = 2
-          const tmpBuys = [tmpBuy1, tmpBuy2]
+          // let tmpBuy1 = new Object()
+          // tmpBuy1.id = 1
+          // tmpBuy1.quantity = 12
+          // tmpBuy1.order_id = 1
+          // tmpBuy1.product_id = 1
+          // let tmpBuy2 = new Object()
+          // tmpBuy2.id = 2
+          // tmpBuy2.quantity = 4
+          // tmpBuy2.order_id = 1
+          // tmpBuy2.product_id = 2
+          // const tmpBuys = [tmpBuy1, tmpBuy2]
           for (let i = 0; i < tmpBuys.length; i++) {
             api.getProduct(tmpBuys[i].product_id).done((data)=> {
               this.productsOrder.push(data)
