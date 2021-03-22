@@ -6,7 +6,8 @@
           <div class="md-title">Modifier un produit</div>
         </md-card-header>
         <md-card-content>
-            <img :src='"../../assets/products/product_"+tmpProduct.id+".jpg"' style="width: 20%">
+<!--          <img :src='"../../assets/products/product_"+tmpProduct.id+".jpg"' style="width: 20%">-->
+            <img :src='"https://backup-backoffice.menopi.ch/assets/products/product_"+tmpProduct.id+".jpg"' style="width: 20%" onerror="this.src='https://backup-backoffice.menopi.ch/assets/logo-arene.png'">>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('name')">

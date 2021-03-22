@@ -70,6 +70,11 @@
               md-confirm-text="Modifier"
               md-cancel-text="Annuler"
               @md-confirm="updateOrder" />
+          <md-card-actions>
+            <md-button class="md-dense md-raised md-primary" type="submit" :disabled="sending">Modifier</md-button>
+            <md-button class="md-dense md-raised md-primary" :disabled="sending" @click="resetOrder()">Réinitialiser</md-button>
+            <md-button class="md-raised md-accent" :disabled="sending" @click="activeDelete = true">Supprimer</md-button>
+          </md-card-actions>
           <md-card-expand>
             <md-card-actions md-alignment="space-between">
               <div>
@@ -80,17 +85,14 @@
             </md-card-actions>
             <md-card-expand-content>
               <md-card-content v-for="item in productsOrder" :key="item.id">
+                <img :src='"https://backup-backoffice.menopi.ch/assets/products/product_"+item.id+".jpg"' onerror="this.src='https://backup-backoffice.menopi.ch/assets/logo-arene.png'" style="width: 10%">
+                <br>
                 Produit : {{ item.name }}
                 <br>
                 Prix unitaire {{ item.price }} CHF
               </md-card-content>
             </md-card-expand-content>
           </md-card-expand>
-          <md-card-actions>
-            <md-button class="md-dense md-raised md-primary" type="submit" :disabled="sending">Modifier</md-button>
-            <md-button class="md-dense md-raised md-primary" :disabled="sending" @click="resetOrder()">Réinitialiser</md-button>
-            <md-button class="md-raised md-accent" :disabled="sending" @click="activeDelete = true">Supprimer</md-button>
-          </md-card-actions>
         </div>
       </md-card>
     </form>
@@ -196,6 +198,7 @@ export default {
     this.idOrder = this.$route.params.id
         this.$store.dispatch('getOrder', this.idOrder)
         .then(data => {
+          console.log(data)
           this.order = data
           this.tmpOrder = data
           this.form.id = data.id
@@ -204,18 +207,6 @@ export default {
           this.form.is_paid = data.is_paid
           this.form.status = data.status
           const tmpBuys = data.buys
-          // solution brute en attendant
-          // let tmpBuy1 = new Object()
-          // tmpBuy1.id = 1
-          // tmpBuy1.quantity = 12
-          // tmpBuy1.order_id = 1
-          // tmpBuy1.product_id = 1
-          // let tmpBuy2 = new Object()
-          // tmpBuy2.id = 2
-          // tmpBuy2.quantity = 4
-          // tmpBuy2.order_id = 1
-          // tmpBuy2.product_id = 2
-          // const tmpBuys = [tmpBuy1, tmpBuy2]
           for (let i = 0; i < tmpBuys.length; i++) {
             api.getProduct(tmpBuys[i].product_id).done((data)=> {
               this.productsOrder.push(data)

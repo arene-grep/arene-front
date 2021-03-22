@@ -12,7 +12,8 @@
       <div v-for="product in products" :key="product.id">
         <md-list-item :to="{name: 'getProduct', params:{id:product.id}}">
           <md-avatar class="md-large">
-            <img :src='"../../assets/products/product_"+product.id+".jpg"' @error="replaceByDefault(product.id)">
+<!--            <img :src='"../../assets/products/product_"+product.id+".jpg"'>-->
+            <img :src='"https://backup-backoffice.menopi.ch/assets/products/product_"+product.id+".jpg"' onerror="this.src='https://backup-backoffice.menopi.ch/assets/logo-arene.png'">
           </md-avatar>
           <div class="md-list-item-text">
             <span>{{ product.name }}</span>
@@ -46,12 +47,6 @@ export default {
         })
         .always(()=> {
         })
-  },
-  methods: {
-    replaceByDefault(e) {
-      e
-      console.log('e')
-    }
   }
 }
 
